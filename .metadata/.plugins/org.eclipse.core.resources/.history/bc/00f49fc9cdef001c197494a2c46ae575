@@ -1,0 +1,22 @@
+package com.esb.saml.migration.controller.alertManagement;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.esb.saml.migration.service.MigrationService;
+
+@RestController("/api")
+public class MgrAlertManagementController {
+
+	@Autowired
+	private MigrationService migrationService;
+
+	@PostMapping(value = "/migration")
+	public List<Long> samlCloseAlert() throws Exception {
+		System.out.print("===============3345677887");
+		return migrationService.samlCloseAlert();
+	}
+}

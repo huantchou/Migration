@@ -1,0 +1,56 @@
+server:
+  port: 9091
+  servlet:
+    context-path: /cmt
+    encoding:
+      charset: UTF-8
+
+jwt:
+  secret: samlcmt
+
+spring:
+  datasource:
+    lmt:
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@192.168.87.136:1521/SAMLS
+      username: oracle
+      password: vQq/E7mGT4zFdIu0x6+7RAgKeQf3FP+o4b4Sg16r1yqyUVmDICuKeyQj946qASzs
+      
+    cmt:
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@192.168.87.136:1521/SAMLS
+      username: oracle
+      password: vQq/E7mGT4zFdIu0x6+7RAgKeQf3FP+o4b4Sg16r1yqyUVmDICuKeyQj946qASzs
+
+    wls:
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@192.168.87.136:1521/SAMLS
+      username: oracle
+      password: vQq/E7mGT4zFdIu0x6+7RAgKeQf3FP+o4b4Sg16r1yqyUVmDICuKeyQj946qASzs
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+#  config-location: classpath:mybatis-config.xml
+logging:
+  level:
+    com.esb.saml.cmt.dao.*:  DEBUG  
+
+pagehelper:
+  autoDialect: true
+  closeConn: true
+  offset-as-page-num: false
+apiUrl:
+  cus: http://192.168.87.131:8081/saml/cus
+
+
+keycloak:
+  auth-server-url: http://ibmdev.dyndns.biz:43580/
+  principal-attribute: preferred_username
+  realm: SamlSSO
+  resource: samlcmt
+  public-client: true
+  bearer-only: true
+ # verify-token-audience: false
+ # use-resource-role-mappings: false
+ # confidential-port: 0
+  enabled: true

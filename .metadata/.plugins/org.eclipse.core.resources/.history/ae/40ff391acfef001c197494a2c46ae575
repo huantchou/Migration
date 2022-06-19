@@ -1,0 +1,37 @@
+package com.esb.saml.migration;
+
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.esb.saml.migration.controller.alertManagement.MgrAlertManagementController;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+class MigrationApplicationTests {
+
+	private MockMvc mvc;
+
+	@InjectMocks
+	private MgrAlertManagementController mgrAlertManagementController;
+
+//	MockMvc mvc; //創建MockMvc類的物件
+//	  
+	@Before
+	public void setup() throws Exception {
+		mvc = MockMvcBuilders.standaloneSetup(mgrAlertManagementController).build();
+	}
+
+	@Test
+	void contextLoads() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string("hello world"));
+
+	}
+
+}

@@ -2,15 +2,15 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
 		<item key="ShowStatusLine" value="true"/>
-		<item key="History" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;History&gt;&#x0D;&#x0A;&lt;historyRootNode&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SamlCommon/src/main/java/com/esb/saml/db/cmt/MsgAlertBo.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/model/common/bo/SqlString.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SamlCommon/src/main/java/com/esb/saml/api/common/dao/cmt/AlertDaoImpl.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/dao/cmt/AlertManagementDao.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/model/usermanagement/bo/RoleBo.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;/historyRootNode&gt;&#x0D;&#x0A;&lt;/History&gt;"/>
+		<item key="History" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;History&gt;&#x0D;&#x0A;&lt;historyRootNode&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SamlCommon/src/main/java/com/esb/saml/db/cmt/MsgAlertBo.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/model/common/bo/SqlString.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/model/usermanagement/bo/RoleBo.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/resources/mybatis-config.xml&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/enums/AlertReviewActionEnum.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/dao/cmt/impl/AlertManagementDaoImpl.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SAML-CMT-APP/src/main/java/com/esb/saml/cmt/dao/cmt/AlertManagementDao.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SamlCommon/src/main/java/com/esb/saml/db/cmt/AlertHitBo.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/SamlCommon/src/main/java/com/esb/saml/api/common/dao/cmt/AlertDaoImpl.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;/historyRootNode&gt;&#x0D;&#x0A;&lt;/History&gt;"/>
 		<item key="ShowDerived" value="false"/>
 		<item key="FilterByLocation" value="false"/>
 		<item key="WorkingSet" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;workingSet workingSetName=&quot;&quot;/&gt;"/>
 		<section name="DialogBoundsSettings">
 			<item key="DIALOG_HEIGHT" value="500"/>
 			<item key="DIALOG_WIDTH" value="600"/>
-			<item key="DIALOG_X_ORIGIN" value="691"/>
-			<item key="DIALOG_Y_ORIGIN" value="221"/>
+			<item key="DIALOG_X_ORIGIN" value="104"/>
+			<item key="DIALOG_Y_ORIGIN" value="220"/>
 			<item key="DIALOG_FONT_NAME" value="1|Microsoft JhengHei UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft JhengHei UI"/>
 		</section>
 	</section>

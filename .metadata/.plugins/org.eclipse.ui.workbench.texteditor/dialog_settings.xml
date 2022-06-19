@@ -6,19 +6,30 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="cmtDataSourceProperties"/>
+		<item key="selection" value="cmtSqlSessionFactory"/>
 		<list key="findhistory">
-			<item value="cmtDataSourceProperties"/>
-			<item value="tbAlertHit"/>
-			<item value="tb_alert_hit"/>
-			<item value="cmt"/>
+			<item value="cmtSqlSessionFactory"/>
+			<item value="com.esb.saml.migration.dao.cmt"/>
+			<item value="SqlSessionTemplate"/>
+			<item value="cmtSqlSessionTemplate"/>
+			<item value="alertDaoImpl"/>
+			<item value="CusCountryDetailBo"/>
+			<item value="&#x09;&lt;resultMap id=&quot;MsgAlertTagBo&quot; type=&quot;com.esb.saml.db.cmt.MsgAlertTagBo&quot;&gt;"/>
+			<item value="MsgAlertTagBo"/>
+			<item value="MsgAlertBo"/>
+			<item value="queryCusAlertAggByAlertAggSeqNo"/>
+			<item value="queryAlertHit"/>
+			<item value="queryCusCountryDetailByAlertSeqNo"/>
+			<item value="insertReductionHash"/>
+			<item value="insert"/>
+			<item value="queryCusAlertByAlertAggSeqNo"/>
 		</list>
 		<list key="replacehistory">
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1233"/>
-		<item key="DIALOG_Y_ORIGIN" value="204"/>
+		<item key="DIALOG_X_ORIGIN" value="1282"/>
+		<item key="DIALOG_Y_ORIGIN" value="200"/>
 		<item key="DIALOG_WIDTH" value="419"/>
 		<item key="DIALOG_HEIGHT" value="499"/>
 		<item key="DIALOG_FONT_NAME" value="1|Microsoft JhengHei UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft JhengHei UI"/>

@@ -2,8 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
-			<item value="C:\mgr_workspace\2021_WLF-COMMON"/>
 			<item value="C:\mgr_workspace\2021_WLF-CMT-APP"/>
+			<item value="C:\mgr_workspace\2021_WLF-COMMON"/>
 			<item value="C:\mgr_workspace2\Migration"/>
 		</list>
 		<list key="projectNameTemplate">

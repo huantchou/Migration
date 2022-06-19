@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<typeInfoHistroy/>
+<typeInfoHistroy>
+    <typeInfo handle="=Migration/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.esb.saml.migration.dao.cmt{MgrAlertManagementDao.java[MgrAlertManagementDao" modifiers="513" timestamp="1655599215654"/>
+    <typeInfo handle="=SamlCommon/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.esb.saml.api.common.dao.cmt{AlertDaoImpl.java[AlertDaoImpl" modifiers="1" timestamp="1654673944000"/>
+    <typeInfo handle="=SamlCommon/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.esb.saml.rest.common.config{RestConfig.java[RestConfig" modifiers="1" timestamp="1654673944000"/>
+</typeInfoHistroy>
