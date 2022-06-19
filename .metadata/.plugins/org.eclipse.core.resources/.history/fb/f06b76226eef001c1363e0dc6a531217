@@ -1,0 +1,78 @@
+package com.esb.saml.migration.config.datasource;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.JdbcType;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+import com.esb.saml.utils.SamlUtils;
+
+@Configuration
+@MapperScan(basePackages = "com.esb.saml.migration.dao.cmt",sqlSessionFactoryRef ="cmtSqlSessionFactory")
+public class MgrDataSourceConfig {
+	
+    /**
+     * sql session
+     */
+    private SqlSessionFactory sqlSessionFactory = null;
+
+    /**
+     * From the configuration file, get the relevant configuration of the database
+     * @return
+     * @remark
+     */
+    @Bean(name = "cmtDataSourceProperties")
+    @ConfigurationProperties(prefix = "spring.datasource.cmt")
+    public DataSourceProperties cmtDataSourceProperties() {
+        return new DataSourceProperties();
+    }
+
+    /**
+     * Instance creation of DataSource
+     * @param cmtDataSourceProperties
+     * @return
+     * @remark
+     */
+    @Bean(name = "cmtDataSource")
+    public DataSource cmtDataSource(@Qualifier("cmtDataSourceProperties") DataSourceProperties cmtDataSourceProperties) {
+         cmtDataSourceProperties.setPassword(SamlUtils.decryptCode(cmtDataSourceProperties.getPassword()));
+        return cmtDataSourceProperties.initializeDataSourceBuilder().build(); 
+    }
+
+    /**
+     * SqlSession factory class corresponding to ibatis
+     * @param cmtDataSource
+     * @return
+     * @throws Exception
+     * @remark
+     */
+    @Bean("cmtSqlSessionFactory")
+    public SqlSessionFactory cmtSqlSessionFactory(DataSource cmtDataSource) throws Exception {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(cmtDataSource);
+        bean.setMapperLocations(
+                new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapper/mgr/*.xml"));
+        bean.getObject().getConfiguration().setJdbcTypeForNull(JdbcType.NULL);
+        sqlSessionFactory = bean.getObject();
+        return bean.getObject();
+    }
+
+
+    /**
+     * get singleton sqlSessionFactory
+     * @return
+     * @remark
+     */
+    public SqlSessionFactory getSqlSessionFactory() {
+        return this.sqlSessionFactory;
+    }
+}

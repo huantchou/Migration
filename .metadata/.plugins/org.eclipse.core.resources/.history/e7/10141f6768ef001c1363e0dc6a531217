@@ -1,0 +1,206 @@
+package com.esb.saml.migration.dao.cmt.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+
+import com.esb.saml.cmt.exception.SamlException;
+import com.esb.saml.cmt.exception.enums.SamlErrorStatus;
+import com.esb.saml.common.entity.staticenum.AlertType;
+import com.esb.saml.db.cmt.AlertHitBo;
+//import com.esb.saml.cmt.exception.SamlException;
+//import com.esb.saml.cmt.exception.enums.SamlErrorStatus;
+import com.esb.saml.db.cmt.CusAlertAggregationBo;
+import com.esb.saml.db.cmt.CusAlertBo;
+import com.esb.saml.db.cmt.CusCountryDetailBo;
+import com.esb.saml.db.cmt.ReductionHashBo;
+import com.esb.saml.migration.config.datasource.MgrDataSourceConfig;
+import com.esb.saml.migration.dao.cmt.MgrAlertManagementDao;
+//import com.esb.saml.cmt.exception.enums.SamlErrorStatus;
+
+@Repository
+public class MgrAlertManagementDaoImpl implements MgrAlertManagementDao {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(MgrAlertManagementDaoImpl.class);
+
+//	@Autowired
+//	private MgrDataSourceConfig mgrDataSourceConfig;
+	
+	@Autowired
+	@Qualifier("cmtSqlSessionFactory")
+	private SqlSessionFactory sessionFactory;
+
+	private static final String NAME_SPACE = "com.esb.saml.cmt.dao.cmt.MgrAlertManagementDao.";
+
+
+	@Override
+	public List<Long> queryAlertAggregationSeqNo() {
+		SqlSession sqlSession = null;
+		List<Long> cusAlertAggSeqNoList = new ArrayList<Long>();
+		try {
+			sqlSession = sessionFactory.openSession();
+			cusAlertAggSeqNoList = sqlSession.selectList(NAME_SPACE + "queryCusCountryDetailByAlertSeqNo");
+		} catch (Exception e) {
+			LOGGER.error("MgrAlertManagementDaoImpl.queryCusCountryDetailByAlertSeqNo error: " + e.getMessage(), e);
+//			throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return cusAlertAggSeqNoList;
+	}
+
+	@Override
+	public List<Long> queryCusAlertSeqNo(Long cusAlertAggSeqNo) {
+		SqlSession sqlSession = null;
+		List<Long> cusAlertSeqNoList = new ArrayList<Long>();
+		try {
+			sqlSession = sessionFactory.openSession();
+			cusAlertSeqNoList = sqlSession.selectList(NAME_SPACE + "queryCusAlertSeqNo", cusAlertAggSeqNo);
+		} catch (Exception e) {
+			LOGGER.error("MgrAlertManagementDaoImpl.getCaseByCaseSeqNo error: " + e.getMessage(), e);
+//			throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return cusAlertSeqNoList;
+	}
+
+	 @Override
+	    public void changeMsgAlertStatus(Long alertSeqNo, String status, String reviewStatus, String level1User, Integer reviewLevel, 
+	            String reviewNotes, String assignUser) {
+	        
+	        SqlSession sqlSession = null;
+	        try {
+	            sqlSession = sessionFactory.openSession();
+	            // 參數
+	            Map<String, Object> params = new HashMap<String, Object>();
+	            params.put("alertSeqNo", alertSeqNo);
+	            params.put("status", status);
+	            params.put("reviewStatus", reviewStatus);
+	            params.put("level1User", level1User);
+	            params.put("reviewLevel", reviewLevel);
+	            params.put("reviewNotes", reviewNotes);
+	            params.put("assignUser", assignUser);
+	            sqlSession.update(NAME_SPACE + "changeMsgAlertStatus", params);
+	            sqlSession.commit();
+	        } catch (Exception e) {
+	            LOGGER.error("MgrAlertManagementDaoImpl.changeMsgAlertStatus error: " + e.getMessage(), e);
+	            sqlSession.rollback();
+//	            throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+	        } finally {
+	            if (sqlSession != null) {
+	                sqlSession.close();
+	            }
+	        }
+	    }
+
+	 @Override
+	    public List<CusAlertBo> queryCusAlertByAlertAggSeqNo(Long alertSeqNo) {
+	        SqlSession sqlSession = null;
+	        List<CusAlertBo> bo = new ArrayList<CusAlertBo>();
+	        try {
+	            sqlSession = sessionFactory.openSession();
+	            bo = sqlSession.selectList(NAME_SPACE + "queryCusAlertByAlertAggSeqNo", alertSeqNo);
+	        } catch (Exception e) {
+	            LOGGER.error("MgrAlertManagementDaoImpl.queryCusAlertByAlertAggSeqNo error: " + e.getMessage(), e);
+//	            throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+	        } finally {
+	            if (sqlSession != null) {
+	                sqlSession.close();
+	            }
+	        }
+	        return bo;
+	    }
+	 
+	 @Override
+	    public CusAlertAggregationBo queryCusAlertAggByAlertAggSeqNo(Long alertSeqNo) {
+	        SqlSession sqlSession = null;
+	        CusAlertAggregationBo bo = null;
+	        try {
+	            sqlSession = sessionFactory.openSession();
+	            bo = sqlSession.selectOne(NAME_SPACE + "queryCusAlertAggByAlertAggSeqNo", alertSeqNo);
+	        } catch (Exception e) {
+	            LOGGER.error("MgrAlertManagementDaoImpl.queryCusAlertAggByAlertAggSeqNo error: " + e.getMessage(), e);
+//	            throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+	        } finally {
+	            if (sqlSession != null) {
+	                sqlSession.close();
+	            }
+	        }
+	        return bo;
+	    }
+	 
+	 @Override
+	    public List<AlertHitBo> queryAlertHit(Long alertSeqNo, AlertType alertType, String orderCondition) {
+	        SqlSession sqlSession = null;
+	        List<AlertHitBo> boList = new ArrayList<AlertHitBo>();
+	        try {
+	            sqlSession = sessionFactory.openSession();
+	            // 參數
+	            Map<String, Object> params = new HashMap<String, Object>();
+	            params.put("alertSeqNo", alertSeqNo);
+	            params.put("alertType", alertType);
+	            params.put("orderCondition", orderCondition);
+	            boList = sqlSession.selectList(NAME_SPACE + "queryAlertHit", params);
+	        } catch (Exception e) {
+	            LOGGER.error("MgrAlertManagementDaoImpl.queryAlertHit error: " + e.getMessage(), e);
+//	            throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+	        } finally {
+	            if (sqlSession != null) {
+	                sqlSession.close();
+	            }
+	        }
+
+	        return boList;
+	    }
+	 
+	 @Override
+	    public List<CusCountryDetailBo> queryCusCountryDetailByAlertSeqNo(Long alertSeqNo) {
+	        SqlSession sqlSession = null;
+	        List<CusCountryDetailBo> bo = new ArrayList<CusCountryDetailBo>();
+	        try {
+	            sqlSession = sessionFactory.openSession();
+	            bo = sqlSession.selectList(NAME_SPACE + "queryCusCountryDetailByAlertSeqNo", alertSeqNo);
+	        } catch (Exception e) {
+	            LOGGER.error("MgrAlertManagementDaoImpl.queryCusCountryDetailByAlertSeqNo error: " + e.getMessage(), e);
+//	            throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+	        } finally {
+	            if (sqlSession != null) {
+	                sqlSession.close();
+	            }
+	        }
+	        return bo;
+	    }
+	 
+	 @Override
+	    public void insertReductionHash(List<ReductionHashBo> boList) {
+	        SqlSession sqlSession = null;
+	        try {
+	            sqlSession = sessionFactory.openSession();
+	            sqlSession.insert(NAME_SPACE + "insertReductionHash", boList);
+	            sqlSession.commit();
+	        } catch (Exception e) {
+	            LOGGER.error("MgrAlertManagementDaoImpl.insertReductionHash error: " + e.getMessage(), e);
+	            sqlSession.rollback();
+//	            throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+	        } finally {
+	            if (sqlSession != null) {
+	                sqlSession.close();
+	            }
+	        }
+	    }
+
+}

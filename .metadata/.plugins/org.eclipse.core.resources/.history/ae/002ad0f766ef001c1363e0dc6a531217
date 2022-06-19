@@ -1,0 +1,5 @@
+package com.esb.saml.migration.common.bo;
+
+public class SessionInfoBo {
+
+}

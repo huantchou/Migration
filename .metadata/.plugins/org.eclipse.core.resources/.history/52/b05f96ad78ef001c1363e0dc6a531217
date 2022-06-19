@@ -1,0 +1,27 @@
+package com.esb.saml.migration.controller.alertManagement;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.esb.saml.migration.service.MigrationService;
+
+@RestController
+@RequestMapping("/migration")
+public class MgrAlertManagementController {
+
+	private static final Logger logger = LoggerFactory.getLogger(MgrAlertManagementController.class);
+
+	@Autowired
+	private MigrationService migrationService;
+
+	@RequestMapping("/samlCloseAlert")
+	public List<Long> samlCloseAlert() throws Exception {
+		return migrationService.samlCloseAlert();
+	}
+
+}

@@ -1,0 +1,32 @@
+/**
+ * 
+ */
+package com.esb.saml.migration.common.vo;
+
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+
+import com.esb.saml.common.entity.staticenum.AlertType;
+import com.esb.saml.migration.model.bo.AlertCaseBo;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 使用者權限物件
+ * @author huant
+ * @date 2022年3月28日
+ * @remark 
+ */
+@Data
+public class UserMenuOperateVo {
+    
+    private Boolean auth;
+    
+    private Map<String, Set<String>> alertTypeMap;
+    
+    private Set<String> reviewUnitSet;
+    
+}

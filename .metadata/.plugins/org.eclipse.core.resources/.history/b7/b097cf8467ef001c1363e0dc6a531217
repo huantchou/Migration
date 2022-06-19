@@ -1,0 +1,55 @@
+/**
+ * 
+ */
+package com.esb.saml.cmt.util;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.esb.saml.cmt.model.common.bo.SessionInfoBo;
+
+/**
+ * ThreadLocal 存取物件
+ * 
+ * @author alison
+ * @date 2022年3月28日
+ * @remark
+ */
+public class SessionInfoThreadLocal {
+
+	/**
+	 * 取得 ThreadLocal物件
+	 * 
+	 * @return
+	 * @remark
+	 */
+	public static SessionInfoBo get() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null) {
+			if (authentication.getPrincipal() instanceof SessionInfoBo) {
+				SessionInfoBo user = (SessionInfoBo) authentication.getPrincipal();
+				return user;
+			} else {
+				return threadLocal.get();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * init ThreadLocal物件
+	 */
+	private static ThreadLocal<SessionInfoBo> threadLocal = new ThreadLocal<>();
+
+	/**
+	 * 將 SessionInfo 存至 threadLocal
+	 * 
+	 * @param sessionInfo 存放至session的資訊
+	 * @remark
+	 */
+	public static void set(SessionInfoBo sessionInfo) {
+
+		threadLocal.set(sessionInfo);
+	}
+
+}

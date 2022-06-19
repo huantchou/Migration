@@ -1,0 +1,67 @@
+package com.esb.saml.migration.dao.cmt.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.esb.saml.migration.config.datasource.MgrDataSourceConfig;
+import com.esb.saml.migration.dao.cmt.MgrAlertManagementDao;
+//import com.esb.saml.cmt.exception.enums.SamlErrorStatus;
+
+@Repository
+public class MgrAlertManagementDaoImpl implements MgrAlertManagementDao {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(MgrAlertManagementDaoImpl.class);
+
+	@Autowired
+	private MgrDataSourceConfig mgrDataSourceConfig;
+
+	private static final String NAME_SPACE = "com.esb.saml.cmt.dao.cmt.MgrAlertManagementDao.";
+
+	private SqlSessionFactory getSqlSessionFactory() throws Exception {
+		return mgrDataSourceConfig.getSqlSessionFactory();
+	}
+
+	@Override
+	public List<Long> queryAlertAggregationSeqNo() {
+		SqlSession sqlSession = null;
+		List<Long> cusAlertAggSeqNoList = new ArrayList<Long>();
+		try {
+			sqlSession = this.getSqlSessionFactory().openSession();
+			cusAlertAggSeqNoList = sqlSession.selectList(NAME_SPACE + "queryCusCountryDetailByAlertSeqNo");
+		} catch (Exception e) {
+			LOGGER.error("AlertManagementDao.queryCusCountryDetailByAlertSeqNo error: " + e.getMessage(), e);
+//			throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return cusAlertAggSeqNoList;
+	}
+
+	@Override
+	public List<Long> queryCusAlertSeqNo(Long cusAlertAggSeqNo) {
+		SqlSession sqlSession = null;
+		List<Long> cusAlertSeqNoList = new ArrayList<Long>();
+		try {
+			sqlSession = this.getSqlSessionFactory().openSession();
+			cusAlertSeqNoList = sqlSession.selectList(NAME_SPACE + "queryCusAlertSeqNo", cusAlertAggSeqNo);
+		} catch (Exception e) {
+			LOGGER.error("AlertManagementDao.getCaseByCaseSeqNo error: " + e.getMessage(), e);
+//			throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return cusAlertSeqNoList;
+	}
+
+}

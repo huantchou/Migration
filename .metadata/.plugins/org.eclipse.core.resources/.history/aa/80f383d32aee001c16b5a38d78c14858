@@ -1,0 +1,24 @@
+package com.esb.saml.migration.dao.cmt;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.esb.saml.cmt.dao.cmt.MsgAlertBo;
+import com.esb.saml.cmt.model.common.bo.SqlString;
+
+public interface MgrAlertManagementDao {
+	 /**
+	 * 取得牌卡均為false hit的cusAlertSeqNo
+	 * @remark
+	 */
+    List<Long> queryAlertAggregationSeqNo();
+    
+    /**
+   	 * 取得牌卡均為false hit的cusAlertSeqNo
+   	 * @remark
+   	 */
+    List<Long> queryCusAlertSeqNo(Long cusAlertAggSeqNo);
+    
+    
+}

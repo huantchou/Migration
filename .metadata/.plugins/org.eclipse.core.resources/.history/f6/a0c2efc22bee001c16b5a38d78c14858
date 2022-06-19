@@ -1,0 +1,1966 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esb.saml.cmt.dao.cmt.AlertManagementDao">
+	<resultMap id="MsgAlertBo" type="com.esb.saml.db.cmt.MsgAlertBo">
+		<result column="MSG_ALERT_SEQ_NO" property="msgAlertSeqNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="MESSAGE_KEY" property="messageKey" />
+		<result column="TXN_NO" property="txnNo" />
+		<result column="SOURCE_SYSTEM" property="sourceSystem" />
+		<result column="CURRENCY" property="currency" />
+		<result column="AMOUNT" property="amount" />
+		<result column="MESSAGE_TYPE" property="messageType" />
+		<result column="DIRECTION" property="direction" />
+		<result column="SENDER" property="sender" />
+		<result column="RECEIVER" property="receiver" />
+		<result column="VALUE_DATE" property="valueDate" />
+		<result column="VALIDATION_FLAG" property="validationFlag" />
+		<result column="REFERENCE_NO" property="referenceNo" />
+		<result column="IS_RTGS" property="isRtgs" />
+		<result column="SCREENING_SETTING" property="screeningSetting" />
+		<result column="LIST_CATEGORY" property="listCategory" />
+		<result column="HIT_COUNT" property="hitCount" />
+		<result column="RECORD_DATE" property="recordDate" />
+		<result column="SCREENING_TIME" property="screeningTime" />
+		<result column="ALERT_TIME" property="alertTime" />
+		<result column="DEADLINE_DATE" property="deadlineDate" />
+		<result column="REVIEW_LEVEL" property="reviewLevel" />
+		<result column="LEVEL1_USER" property="level1User" />
+		<result column="REVIEW_USER" property="reviewUser" />
+		<result column="ALERT_SCORE" property="alertScore" />
+		<result column="REVIEW_UNIT" property="reviewUnit" />
+		<result column="STATUS" property="status" />
+		<result column="REVIEW_STATUS" property="reviewStatus" />
+		<result column="REVIEW_NOTES" property="reviewNotes" />
+		<result column="CLOSED_TIME" property="closedTime" />
+		<result column="ASSIGN_USER" property="assignUser" />
+		<result column="LOCKED" property="locked" />
+		<!-- <result column="MESSAGE" property="message" jdbcType="CLOB" javaType="java.lang.String" typeHandler="com.esb.saml.cmt.util.OracleClobTypeHandler" /> -->
+		<result column="EXIST_RFI" property="existRfi" />
+		<result column="EXIST_COMMENT" property="existComment" />
+		<result column="EXIST_FILE" property="existFile" />
+	</resultMap>
+
+	<resultMap id="MsgAlertTagBo" type="com.esb.saml.db.cmt.MsgAlertTagBo">
+		<result column="TAG_NAME" property="tagName" />
+		<result column="TAG_DESC" property="tagDesc" />
+		<result column="TAG_CONTENT" property="tagContent" />
+	</resultMap>
+
+	<resultMap id="AlertHitBo" type="com.esb.saml.db.cmt.AlertHitBo">
+		<result column="ALERT_HIT_KEY" property="hitKey" />
+		<result column="HIT_NO" property="hitNo" />
+		<result column="LIST_SOURCE" property="listSource" />
+		<result column="ENTRY_FACT_KEY" property="entryFactKey" />
+		<result column="ENTRY_JSON" property="entryJson" />
+		<result column="ENTRY_ID" property="entryId" />
+		<result column="LIST_CATEGORY" property="listCategory" />
+		<result column="HIT_RESULT" property="hitResult" />
+		<result column="HIT_REASON" property="hitReason" />
+		<result column="HIT_COMMENT" property="hitComment" />
+		<result column="HIT_TYPE" property="hitType" />
+		<result column="ALERT_MATCH_KEY" property="matchKey" />
+		<result column="MATCH_SCORE" property="matchScore" />
+		<result column="FINAL_SCORE" property="finalScore" />
+		<result column="MATCH_METHOD" property="matchMethod" />
+		<result column="MATCH_DETAIL" property="matchDetail" />
+		<result column="MATCHED_TEXT" property="matchedText" />
+		<result column="MATCHED_LIST" property="matchedList" />
+		<result column="MATCHED_TYPE" property="matchedType" />
+		<result column="MATCHED_SUB_TYPE" property="matchedSubType" />
+		<result column="MATCHED_COLUMN_TAG" property="matchedColumnTag" />
+		<result column="FROM_INDEX" property="fromIndex" />
+		<result column="TO_INDEX" property="toIndex" />
+		<result column="TF_TYPE" property="tfType" />
+		<result column="TF_SCORE" property="tfScore" />
+		<result column="IS_PROHIBITION" property="prohibition" />
+		<result column="IS_FOCUS_PEP" property="focusPep" />
+		<result column="SHOW_PROHIBITION" property="showProhibition" />
+		<result column="SHOW_FOCUS_PEP" property="showFocusPep" />
+		<result column="AUTO_FLAG" property="autoFlag" />
+	</resultMap>
+
+	<resultMap id="AlertFileBo" type="com.esb.saml.cmt.model.alertmanagement.bo.AlertFileBo">
+		<result column="ALERT_FILE_SEQ_NO" property="seqNo" />
+		<result column="MAPPING_ALERT_SEQ_NO" property="alertSeqNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="FILE_CONTENT" property="fileContent" jdbcType="BLOB" typeHandler="org.apache.ibatis.type.BlobTypeHandler" />
+		<result column="FILE_NAME" property="fileName" />
+		<result column="FILE_TYPE" property="fileType" />
+		<result column="FILE_SIZE" property="fileSize" />
+		<result column="FILE_DESC" property="fileDesc" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATE_USER" property="createUser" />
+	</resultMap>
+
+	<resultMap id="AlertReviewHistoryBo" type="com.esb.saml.db.cmt.AlertReviewHistoryBo">
+		<result column="MAPPING_ALERT_SEQ_NO" property="alertSeqNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="REVIEW_ACTION" property="action" />
+		<result column="REVIEW_DESC" property="desc" />
+		<result column="BEFORE_REVIEW_LEVEL" property="beforeReviewLevel" />
+		<result column="AFTER_REVIEW_LEVEL" property="afterReviewLevel" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATE_USER" property="updateUser" />
+	</resultMap>
+
+	<resultMap id="TxnAlertBo" type="com.esb.saml.db.cmt.TxnAlertBo">
+		<result column="TXN_ALERT_SEQ_NO" property="txnAlertSeqNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="SOURCE_SYSTEM" property="sourceSystem" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="BUSINESS_UNIT" property="businessUnit" />
+		<result column="TXN_KEY" property="txnKey" />
+		<result column="TXN_TYPE" property="txnType" />
+		<result column="REMITTANCE_NO" property="remittanceNo" />
+		<result column="DRAFT_NO" property="draftNo" />
+		<result column="REFERENCE_NO" property="referenceNo" />
+		<result column="CURRENCY" property="currency" />
+		<result column="AMOUNT" property="amount" />
+		<result column="MESSAGE_TYPE" property="messageType" />
+		<result column="DIRECTION" property="direction" />
+		<result column="SCREENING_SETTING" property="screeningSetting" />
+		<result column="TXN_TIME" property="txnTime" />
+		<result column="REGULATORY_REPORTING" property="regulatoryReporting" />
+		<result column="REMITTANCE_INFO" property="remittanceInfo" />
+		<result column="FI_TO_FI_INFO_1" property="fiToFiInfo1" />
+		<result column="FI_TO_FI_INFO_2" property="fiToFiInfo2" />
+		<result column="VALUE_DATE" property="valueDate" />
+		<result column="IS_RTGS" property="isRtgs" />
+		<result column="LIST_CATEGORY" property="listCategory" />
+		<result column="HIT_COUNT" property="hitCount" />
+		<result column="RECORD_DATE" property="recordDate" />
+		<result column="SCREENING_TIME" property="screeningTime" />
+		<result column="ALERT_TIME" property="alertTime" />
+		<result column="DEADLINE_DATE" property="deadlineDate" />
+		<result column="REVIEW_LEVEL" property="reviewLevel" />
+		<result column="LEVEL1_USER" property="level1User" />
+		<result column="REVIEW_USER" property="reviewUser" />
+		<result column="ALERT_SCORE" property="alertScore" />
+		<result column="REVIEW_UNIT" property="reviewUnit" />
+		<result column="STATUS" property="status" />
+		<result column="REVIEW_STATUS" property="reviewStatus" />
+		<result column="REVIEW_NOTES" property="reviewNotes" />
+		<result column="ASSIGN_USER" property="assignUser" />
+		<result column="CLOSED_TIME" property="closedTime" />
+		<result column="LOCKED" property="locked" />
+		<result column="EXIST_RFI" property="existRfi" />
+		<result column="EXIST_COMMENT" property="existComment" />
+		<result column="EXIST_FILE" property="existFile" />
+	</resultMap>
+
+	<resultMap id="TxnAlertRemBo" type="com.esb.saml.db.cmt.TxnAlertRemBo">
+		<result column="TYPE" property="type" />
+		<result column="NAME" property="name" />
+		<result column="ID" property="id" />
+		<result column="ADDRESS" property="address" />
+		<result column="COUNTRY" property="country" />
+		<result column="DETAILS" property="details" />
+	</resultMap>
+
+	<resultMap id="TxnAlertOtherBo" type="com.esb.saml.db.cmt.TxnAlertOtherBo">
+		<result column="MESSAGE_TYPE" property="messageType" />
+		<result column="QUERIES_OR_ANSWERS" property="queriesOrAnswers" />
+		<result column="NARRATIVE" property="narrative" />
+		<result column="NARRATIVE_DESC" property="narrativeDesc" />
+		<result column="DATA_INDEX" property="dataIndex" />
+	</resultMap>
+
+	<resultMap id="CusAlertAggBo" type="com.esb.saml.db.cmt.CusAlertAggregationBo">
+		<result column="CUS_ALERT_AGG_SEQ_NO" property="cusAlertAggSeqNo" />
+		<result column="CASE_COUNT" property="caseCount" />
+		<result column="CASE_NO" property="caseNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="SOURCE_SYSTEM" property="sourceSystem" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="BUSINESS_UNIT" property="businessUnit" />
+		<result column="PARTY_KEY" property="partyKey" />
+		<result column="PARTY_TYPE" property="partyType" />
+		<result column="RELATION_TYPE" property="relationType" />
+		<result column="FULL_NAME" property="fullName" />
+		<result column="NATIONAL_ID" property="nationalId" />
+		<result column="PASSPORT_NO" property="passportNo" />
+		<result column="DRIVING_LICENSE_NO" property="drivingLicenseNo" />
+		<result column="SOCIAL_SECURITY_NO" property="socialSecurityNo" />
+		<result column="TAX_NO" property="nationalTaxNo" />
+		<result column="REGISTRATION_ID" property="registrationId" />
+		<result column="OTHER_ID" property="otherId" />
+		<result column="BIC" property="bic" />
+		<result column="OTHER_COUNTRY" property="otherCountry" />
+		<result column="HIT_REDUCTION" property="hitReduction" />
+		<result column="SCREENING_SETTING" property="screeningSetting" />
+		<result column="LIST_CATEGORY" property="listCategory" />
+		<result column="HIT_COUNT" property="hitCount" />
+		<result column="RECORD_DATE" property="recordDate" />
+		<result column="SCREENING_TIME" property="screeningTime" />
+		<result column="ALERT_TIME" property="alertTime" />
+		<result column="DEADLINE_DATE" property="deadlineDate" />
+		<result column="REVIEW_LEVEL" property="reviewLevel" />
+		<result column="LEVEL1_USER" property="level1User" />
+		<result column="REVIEW_USER" property="reviewUser" />
+		<result column="ALERT_SCORE" property="alertScore" />
+		<result column="REVIEW_UNIT" property="reviewUnit" />
+		<result column="STATUS" property="status" />
+		<result column="REVIEW_STATUS" property="reviewStatus" />
+		<result column="REVIEW_NOTES" property="reviewNotes" />
+		<result column="ASSIGN_USER" property="assignUser" />
+		<result column="CLOSED_TIME" property="closedTime" />
+		<result column="LOCKED" property="locked" />
+		<result column="REGION_UNIT" property="regionUnit" />
+	</resultMap>
+
+	<resultMap id="CusAlertBo" type="com.esb.saml.db.cmt.CusAlertBo">
+		<result column="CUS_ALERT_SEQ_NO" property="cusAlertSeqNo" />
+		<result column="CUS_ALERT_AGG_SEQ_NO" property="cusAlertAggSeqNo" />
+		<result column="CASE_NO" property="caseNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="SOURCE_SYSTEM" property="sourceSystem" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="BUSINESS_UNIT" property="businessUnit" />
+		<result column="PARTY_KEY" property="partyKey" />
+		<result column="PARTY_TYPE" property="partyType" />
+		<result column="MAIN_PARTY" property="mainParty" />
+		<result column="RELATION_TYPE" property="relationType" />
+		<result column="FULL_NAME" property="fullName" />
+		<result column="FIRST_NAME" property="firstName" />
+		<result column="LAST_NAME" property="lastName" />
+		<result column="MAIDEN_NAME" property="maidenName" />
+		<result column="GENDER" property="gender" />
+		<result column="BIRTHDAY" property="birthday" />
+		<result column="REGISTRATION_DATE" property="registrationDate" />
+		<result column="NATIONAL_ID" property="nationalId" />
+		<result column="PASSPORT_NO" property="passportNo" />
+		<result column="DRIVING_LICENSE_NO" property="drivingLicenseNo" />
+		<result column="SOCIAL_SECURITY_NO" property="socialSecurityNo" />
+		<result column="TAX_NO" property="nationalTaxNo" />
+		<result column="REGISTRATION_ID" property="registrationId" />
+		<result column="OTHER_ID" property="otherId" />
+		<result column="BIC" property="bic" />
+		<result column="OTHER_COUNTRY" property="otherCountry" />
+		<result column="GENDER" property="gender" />
+		<result column="HIT_REDUCTION" property="hitReduction" />
+		<result column="SCREENING_SETTING" property="screeningSetting" />
+		<result column="LIST_CATEGORY" property="listCategory" />
+		<result column="HIT_COUNT" property="hitCount" />
+		<result column="RECORD_DATE" property="recordDate" />
+		<result column="SCREENING_TIME" property="screeningTime" />
+		<result column="ALERT_TIME" property="alertTime" />
+		<result column="DEADLINE_DATE" property="deadlineDate" />
+		<result column="REVIEW_LEVEL" property="reviewLevel" />
+		<result column="LEVEL1_USER" property="level1User" />
+		<result column="REVIEW_USER" property="reviewUser" />
+		<result column="ALERT_SCORE" property="alertScore" />
+		<result column="REVIEW_UNIT" property="reviewUnit" />
+		<result column="STATUS" property="status" />
+		<result column="REVIEW_STATUS" property="reviewStatus" />
+		<result column="REVIEW_NOTES" property="reviewNotes" />
+		<result column="ASSIGN_USER" property="assignUser" />
+		<result column="LOCKED" property="locked" />
+		<result column="REGION_UNIT" property="regionUnit" />
+		<result column="CASE_SEQ_NO" property="caseSeqNo" />
+	</resultMap>
+
+	<resultMap id="CusNameDetailBo" type="com.esb.saml.db.cmt.CusNameDetailBo">
+		<result column="FULL_NAME" property="fullName" />
+		<result column="LAST_NAME" property="lastName" />
+		<result column="FIRST_NAME" property="firstName" />
+		<result column="MAIDEN_NAME" property="maidenName" />
+	</resultMap>
+
+	<resultMap id="CusIdDetailBo" type="com.esb.saml.db.cmt.CusIdDetailBo">
+		<result column="ID_TYPE" property="idType" />
+		<result column="ID_VALUE" property="idValue" />
+	</resultMap>
+
+	<resultMap id="CusCountryDetailBo" type="com.esb.saml.db.cmt.CusCountryDetailBo">
+		<result column="COUNTRY_TYPE" property="countryType" />
+		<result column="COUNTRY_VALUE" property="countryValue" />
+		<result column="VALUE_TYPE" property="valueType" />
+	</resultMap>
+
+	<resultMap id="CaseBo" type="com.esb.saml.db.cmt.CaseBo">
+		<result column="CASE_SEQ_NO" property="caseSeqNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="REQ_MSG" property="reqMsg" />
+		<result column="CASE_NO" property="businessUnit" />
+		<result column="REVIEW_UNIT" property="reviewUnit" />
+		<result column="BUSINESS_SYSTEM" property="businessSystem" />
+		<result column="BUSINESS_UNIT" property="businessUnit" />
+		<result column="REGION_UNIT" property="regionUnit" />
+		<result column="RECORD_DATE" property="recordDate" />
+		<result column="SCREENING_TIME" property="screeningTime" />
+		<result column="ALERT_TIME" property="alertTime" />
+	</resultMap>
+
+	<resultMap id="CusRelationCaseBo" type="com.esb.saml.cmt.model.alertmanagement.bo.CusRelationCaseBo">
+		<result column="MAP_CASE_SEQ_NO" property="mapCaseSeqNo" />
+		<result column="CUS_ALERT_SEQ_NO" property="cusAlertSeqNo" />
+		<result column="CUS_ALERT_AGG_SEQ_NO" property="cusAlertAggSeqNo" />
+		<result column="CASE_NO" property="caseNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="SOURCE_SYSTEM" property="sourceSystem" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="BUSINESS_UNIT" property="businessUnit" />
+		<result column="PARTY_KEY" property="partyKey" />
+		<result column="PARTY_TYPE" property="partyType" />
+		<result column="MAIN_PARTY" property="mainParty" />
+		<result column="RELATION_TYPE" property="relationType" />
+		<result column="FULL_NAME" property="fullName" />
+		<result column="FIRST_NAME" property="firstName" />
+		<result column="LAST_NAME" property="lastName" />
+		<result column="MAIDEN_NAME" property="maidenName" />
+		<result column="GENDER" property="gender" />
+		<result column="BIRTHDAY" property="birthday" />
+		<result column="REGISTRATION_DATE" property="registrationDate" />
+		<result column="NATIONAL_ID" property="nationalId" />
+		<result column="PASSPORT_NO" property="passportNo" />
+		<result column="DRIVING_LICENSE_NO" property="drivingLicenseNo" />
+		<result column="SOCIAL_SECURITY_NO" property="socialSecurityNo" />
+		<result column="TAX_NO" property="nationalTaxNo" />
+		<result column="REGISTRATION_ID" property="registrationId" />
+		<result column="OTHER_ID" property="otherId" />
+		<result column="BIC" property="bic" />
+		<result column="OTHER_COUNTRY" property="otherCountry" />
+		<result column="GENDER" property="gender" />
+		<result column="HIT_REDUCTION" property="hitReduction" />
+		<result column="SCREENING_SETTING" property="screeningSetting" />
+		<result column="LIST_CATEGORY" property="listCategory" />
+		<result column="HIT_COUNT" property="hitCount" />
+		<result column="RECORD_DATE" property="recordDate" />
+		<result column="SCREENING_TIME" property="screeningTime" />
+		<result column="ALERT_TIME" property="alertTime" />
+		<result column="DEADLINE_DATE" property="deadlineDate" />
+		<result column="REVIEW_LEVEL" property="reviewLevel" />
+		<result column="LEVEL1_USER" property="level1User" />
+		<result column="REVIEW_USER" property="reviewUser" />
+		<result column="ALERT_SCORE" property="alertScore" />
+		<result column="REVIEW_UNIT" property="reviewUnit" />
+		<result column="STATUS" property="status" />
+		<result column="REVIEW_STATUS" property="reviewStatus" />
+		<result column="REVIEW_NOTES" property="reviewNotes" />
+		<result column="ASSIGN_USER" property="assignUser" />
+		<result column="LOCKED" property="locked" />
+		<result column="REGION_UNIT" property="regionUnit" />
+		<result column="CASE_SEQ_NO" property="caseSeqNo" />
+	</resultMap>
+
+	<select id="queryMsgAlert" parameterType="map" resultMap="MsgAlertBo">
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.MSG_ALERT_SEQ_NO,
+				A.ALERT_TYPE,
+				A.BUSINESS_TYPE,
+				A.MESSAGE_KEY,
+				A.TXN_NO,
+				A.SOURCE_SYSTEM,
+				A.CURRENCY,
+				A.AMOUNT,
+				A.MESSAGE_TYPE,
+				A.DIRECTION,
+				A.SENDER,
+				A.RECEIVER,
+				A.VALUE_DATE,
+				A.VALIDATION_FLAG,
+				A.REFERENCE_NO,
+				A.IS_RTGS,
+				A.SCREENING_SETTING,
+				A.LIST_CATEGORY,
+				A.HIT_COUNT,
+				A.RECORD_DATE,
+				A.SCREENING_TIME,
+				A.ALERT_TIME,
+				A.DEADLINE_DATE,
+				A.REVIEW_LEVEL,
+				A.LEVEL1_USER,
+				A.REVIEW_USER,
+				A.ALERT_SCORE,
+				A.REVIEW_UNIT,
+				A.STATUS,
+				A.REVIEW_NOTES,
+				A.ASSIGN_USER,
+				A.LOCKED
+			FROM
+				CMT.TB_MSG_ALERT A
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		${orderCondition}
+		<if test="offset != null and limit != null">
+			OFFSET #{offset} ROWS FETCH  NEXT #{limit} ROWS ONLY
+        </if>
+	</select>
+
+	<select id="checkAlertFile" parameterType="map" resultType="java.lang.Long">
+		SELECT 
+			DISTINCT MAPPING_ALERT_SEQ_NO
+		FROM 
+			CMT.TB_ALERT_FILE 
+		WHERE 
+			ALERT_TYPE = #{alertType} 
+			AND MAPPING_ALERT_SEQ_NO IN
+		<foreach collection="alertSeqNoList" item="alertSeqNo" separator="," open="(" close=")">
+				#{alertSeqNo}
+			</foreach>
+	</select>
+
+	<select id="checkAlertRfi" parameterType="map" resultType="java.lang.Long">
+		SELECT 
+			DISTINCT MAPPING_ALERT_SEQ_NO
+		FROM 
+			CMT.TB_ALERT_RFI 
+		WHERE 
+			ALERT_TYPE = #{alertType} 
+			AND MAPPING_ALERT_SEQ_NO IN
+		<foreach collection="alertSeqNoList" item="alertSeqNo" separator="," open="(" close=")">
+				#{alertSeqNo}
+			</foreach>
+	</select>
+
+	<select id="checkAlertComment" parameterType="map" resultType="java.lang.Long">
+		SELECT 
+			DISTINCT MAPPING_ALERT_SEQ_NO
+		FROM 
+			CMT.TB_ALERT_REVIEW_HISTORY 
+		WHERE 
+			ALERT_TYPE = #{alertType} 
+			AND REVIEW_ACTION = 'Add Comment'
+			AND MAPPING_ALERT_SEQ_NO IN
+		<foreach collection="alertSeqNoList" item="alertSeqNo" separator="," open="(" close=")">
+				#{alertSeqNo}
+			</foreach>
+	</select>
+
+	<select id="countMsgAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(1)
+		FROM (
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.MSG_ALERT_SEQ_NO
+			FROM
+				CMT.TB_MSG_ALERT A
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		)
+	</select>
+
+	<select id="queryCloseMsgAlert" parameterType="map" resultMap="MsgAlertBo">
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.MSG_ALERT_SEQ_NO,
+				A.ALERT_TYPE,
+				A.BUSINESS_TYPE,
+				A.MESSAGE_KEY,
+				A.TXN_NO,
+				A.SOURCE_SYSTEM,
+				A.CURRENCY,
+				A.AMOUNT,
+				A.MESSAGE_TYPE,
+				A.DIRECTION,
+				A.SENDER,
+				A.RECEIVER,
+				A.VALUE_DATE,
+				A.VALIDATION_FLAG,
+				A.REFERENCE_NO,
+				A.IS_RTGS,
+				A.SCREENING_SETTING,
+				A.LIST_CATEGORY,
+				A.HIT_COUNT,
+				A.RECORD_DATE,
+				A.SCREENING_TIME,
+				A.ALERT_TIME,
+				A.DEADLINE_DATE,
+				A.REVIEW_LEVEL,
+				A.LEVEL1_USER,
+				A.REVIEW_USER,
+				A.ALERT_SCORE,
+				A.REVIEW_UNIT,
+				A.STATUS,
+				A.REVIEW_NOTES,
+				A.CLOSED_TIME
+			FROM
+				CMT.TB_MSG_ALERT_HISTORY A
+			WHERE
+				A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		${orderCondition}
+		<if test="offset != null and limit != null">
+			OFFSET #{offset} ROWS FETCH  NEXT #{limit} ROWS ONLY
+        </if>
+	</select>
+
+	<select id="countCloseMsgAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(1)
+		FROM (
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.MSG_ALERT_SEQ_NO
+			FROM
+				CMT.TB_MSG_ALERT_HISTORY A
+			WHERE
+				A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		)
+	</select>
+
+	<select id="queryMsgAlertByAlertSeqNo" parameterType="java.lang.Long" resultMap="MsgAlertBo">
+		SELECT
+			A.MSG_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.BUSINESS_TYPE,
+			A.MESSAGE_KEY,
+			A.TXN_NO,
+			A.SOURCE_SYSTEM,
+			A.CURRENCY,
+			A.AMOUNT,
+			A.MESSAGE_TYPE,
+			A.DIRECTION,
+			A.SENDER,
+			A.RECEIVER,
+			A.VALUE_DATE,
+			A.VALIDATION_FLAG,
+			A.REFERENCE_NO,
+			A.IS_RTGS,
+			A.SCREENING_SETTING,
+			A.LIST_CATEGORY,
+			A.HIT_COUNT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME,
+			A.DEADLINE_DATE,
+			A.REVIEW_LEVEL,
+			A.LEVEL1_USER,
+			A.REVIEW_USER,
+			A.ALERT_SCORE,
+			A.REVIEW_UNIT,
+			A.STATUS,
+			A.REVIEW_STATUS,
+			A.REVIEW_NOTES,
+			A.ASSIGN_USER,
+			A.LOCKED
+		FROM 
+			CMT.TB_MSG_ALERT A
+		WHERE 
+			A.MSG_ALERT_SEQ_NO = #{alertSeqNo}
+		UNION ALL
+		SELECT
+			A.MSG_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.BUSINESS_TYPE,
+			A.MESSAGE_KEY,
+			A.TXN_NO,
+			A.SOURCE_SYSTEM,
+			A.CURRENCY,
+			A.AMOUNT,
+			A.MESSAGE_TYPE,
+			A.DIRECTION,
+			A.SENDER,
+			A.RECEIVER,
+			A.VALUE_DATE,
+			A.VALIDATION_FLAG,
+			A.REFERENCE_NO,
+			A.IS_RTGS,
+			A.SCREENING_SETTING,
+			A.LIST_CATEGORY,
+			A.HIT_COUNT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME,
+			A.DEADLINE_DATE,
+			A.REVIEW_LEVEL,
+			A.LEVEL1_USER,
+			A.REVIEW_USER,
+			A.ALERT_SCORE,
+			A.REVIEW_UNIT,
+			A.STATUS,
+			'Close',
+			A.REVIEW_NOTES,
+			'',
+			'N'
+		FROM 
+			CMT.TB_MSG_ALERT_HISTORY A
+		WHERE 
+			A.MSG_ALERT_SEQ_NO = #{alertSeqNo}
+	</select>
+
+	<select id="queryMsgAlertTag" parameterType="java.lang.Long" resultMap="MsgAlertTagBo">
+		SELECT
+			A.TAG_NAME,
+			A.TAG_DESC,
+			A.TAG_CONTENT
+		FROM 
+			CMT.TB_MSG_ALERT_TAG A
+		WHERE 
+			A.MSG_ALERT_SEQ_NO = #{alertSeqNo}
+		ORDER BY
+			A.TAG_NAME ASC
+	</select>
+
+	<select id="queryAlertHit" parameterType="map" resultMap="AlertHitBo">
+		SELECT
+			A.ALERT_HIT_KEY,
+			A.HIT_NO,
+			A.LIST_SOURCE,
+			A.ENTRY_FACT_KEY,
+			A.ENTRY_JSON,
+			A.ENTRY_ID,
+			A.LIST_CATEGORY,
+			A.HIT_TYPE,
+			A.HIT_RESULT,
+			A.HIT_REASON,
+			A.HIT_COMMENT,
+			A.IS_PROHIBITION,
+			A.IS_FOCUS_PEP,
+			A.SHOW_PROHIBITION,
+			A.SHOW_FOCUS_PEP,
+			A.AUTO_FLAG,
+			B.ALERT_MATCH_KEY,
+			B.MATCHED_COLUMN_TAG,
+			B.MATCHED_TEXT,
+			B.MATCHED_LIST,
+			B.MATCHED_TYPE,
+			B.MATCHED_SUB_TYPE,
+			B.FROM_INDEX,
+			B.TO_INDEX,
+			B.MATCH_SCORE,
+			B.FINAL_SCORE,
+			B.MATCH_METHOD,
+			B.MATCH_DETAIL,
+			C.TF_TYPE,
+			C.TF_SCORE
+		FROM
+			CMT.TB_ALERT_HIT A
+		INNER JOIN 
+			CMT.TB_ALERT_MATCH B ON A.ALERT_HIT_KEY = B.ALERT_HIT_KEY
+		LEFT JOIN 
+			CMT.TB_ALERT_MATCH_TF C ON B.ALERT_MATCH_KEY = C.ALERT_MATCH_KEY
+		WHERE
+			A.MAPPING_ALERT_SEQ_NO=#{alertSeqNo} AND A.ALERT_TYPE=#{alertType}
+		${orderCondition}
+	</select>
+
+	<select id="queryAlertFile" parameterType="map" resultMap="AlertFileBo">
+		SELECT
+			A.MAPPING_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.ALERT_FILE_SEQ_NO,
+			A.FILE_CONTENT,
+			A.FILE_NAME,
+			A.FILE_TYPE,
+			A.FILE_SIZE,
+			A.FILE_DESC,
+			A.CREATE_TIME,
+			A.CREATE_USER
+		FROM
+			CMT.TB_ALERT_FILE A
+		WHERE
+			A.MAPPING_ALERT_SEQ_NO=#{alertSeqNo} AND ALERT_TYPE=#{alertType} 
+		ORDER BY
+			A.ALERT_FILE_SEQ_NO ASC
+	</select>
+
+	<select id="queryAlertReviewHistory" parameterType="map" resultMap="AlertReviewHistoryBo">
+		SELECT
+			A.MAPPING_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.REVIEW_ACTION,
+			A.REVIEW_DESC,
+			A.UPDATE_TIME,
+			A.UPDATE_USER
+		FROM
+			CMT.TB_ALERT_REVIEW_HISTORY A
+		WHERE
+			A.MAPPING_ALERT_SEQ_NO=#{alertSeqNo} AND A.ALERT_TYPE=#{alertType}
+		ORDER BY 
+			A.UPDATE_TIME DESC
+	</select>
+
+
+	<select id="queryHistoryMsgAlert" parameterType="java.lang.String" resultMap="MsgAlertBo">
+		SELECT
+			A.MSG_ALERT_SEQ_NO,
+			A.BUSINESS_TYPE,
+			A.ALERT_TYPE,
+			A.LIST_CATEGORY,
+			A.HIT_COUNT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME,
+			A.LEVEL1_USER,
+			A.REVIEW_USER,
+			A.STATUS,
+			A.CLOSED_TIME
+		FROM
+			CMT.TB_MSG_ALERT_HISTORY A
+		WHERE
+			A.MESSAGE_KEY=#{messageKey}
+	</select>
+
+	<select id="countLockedMsgAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1)
+		FROM
+			CMT.TB_MSG_ALERT
+		WHERE
+			ASSIGN_USER=#{assignUser} 
+			AND REGION_UNIT=#{regionUnit}
+			AND LOCKED='Y'
+	</select>
+
+	<update id="lockMsgAlert" parameterType="map">
+		UPDATE 
+			CMT.TB_MSG_ALERT 
+		SET
+			ASSIGN_USER=#{assignUser}, LOCKED='Y'
+		WHERE
+			MSG_ALERT_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<update id="unlockMsgAlert" parameterType="java.lang.Long">
+		UPDATE 
+			CMT.TB_MSG_ALERT 
+		SET
+			ASSIGN_USER=null, LOCKED='N'
+		WHERE
+			MSG_ALERT_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<update id="changeMsgAlertStatus" parameterType="map">
+		UPDATE 
+			CMT.TB_MSG_ALERT 
+		SET
+			STATUS=#{status},
+			REVIEW_STATUS=#{reviewStatus}
+		<if test="level1User != null">
+               	, LEVEL1_USER=#{level1User}
+           	</if>
+		<if test="reviewNotes != null">
+               	, REVIEW_LEVEL=#{reviewLevel}
+           	</if>
+		<if test="reviewNotes != null">
+               	, REVIEW_NOTES=#{reviewNotes}
+           	</if>
+		<if test="assignUser != null and assignUser != '' ">
+             	, ASSIGN_USER=#{assignUser}
+             	, LOCKED = 'Y'
+           	</if>
+		<if test="assignUser == null or assignUser == '' ">
+             	, LOCKED = 'N'
+           	</if>
+		WHERE
+			MSG_ALERT_SEQ_NO=#{alertSeqNo}
+	</update>
+
+	<update id="updateMsgAlert" parameterType="map">
+		UPDATE 
+			CMT.TB_MSG_ALERT 
+		SET
+			REVIEW_NOTES=#{reviewNotes}
+		WHERE
+			MSG_ALERT_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<update id="resetAlertHit" parameterType="map">
+		UPDATE 
+			CMT.TB_ALERT_HIT 
+		SET
+			HIT_RESULT=null,
+			HIT_REASON=null,
+			HIT_COMMENT=null
+		WHERE
+			MAPPING_ALERT_SEQ_NO=#{alertSeqNo}
+				AND ALERT_TYPE=#{alertType}
+	</update>
+
+	<update id="updateAlertHit" parameterType="map">
+		UPDATE 
+			CMT.TB_ALERT_HIT 
+		SET
+			HIT_RESULT=#{hitResult},
+			HIT_REASON=#{hitReason},
+			HIT_COMMENT=#{hitComment}
+		WHERE
+			ALERT_HIT_KEY=#{hitKey} 
+	</update>
+
+	<insert id="insertMsgAlertHistory" parameterType="map">
+		INSERT INTO CMT.TB_MSG_ALERT_HISTORY
+		(
+			MSG_ALERT_SEQ_NO,
+			ALERT_TYPE,
+			BUSINESS_TYPE,
+			MESSAGE_KEY,
+			TXN_NO,
+			SOURCE_SYSTEM,
+			CURRENCY,
+			AMOUNT,
+			MESSAGE_TYPE,
+			DIRECTION,
+			SENDER,
+			RECEIVER,
+			VALUE_DATE,
+			VALIDATION_FLAG,
+			REFERENCE_NO,
+			IS_RTGS,
+			SCREENING_SETTING,
+			LIST_CATEGORY,
+			HIT_COUNT,
+			RECORD_DATE,
+			SCREENING_TIME,
+			ALERT_TIME,
+			DEADLINE_DATE,
+			REVIEW_LEVEL,
+			LEVEL1_USER,
+			ALERT_SCORE,
+			REVIEW_UNIT,
+			BATCH_SEQ_NO,
+			REGION_UNIT,
+			REVIEW_USER,
+			STATUS,
+			REVIEW_NOTES,
+			CLOSED_TIME
+		)
+		SELECT
+			MSG_ALERT_SEQ_NO, 
+			ALERT_TYPE, 
+			BUSINESS_TYPE,
+			MESSAGE_KEY,
+			TXN_NO,
+			SOURCE_SYSTEM,
+			CURRENCY,
+			AMOUNT,
+			MESSAGE_TYPE,
+			DIRECTION,
+			SENDER,
+			RECEIVER,
+			VALUE_DATE,
+			VALIDATION_FLAG,
+			REFERENCE_NO,
+			IS_RTGS,
+			SCREENING_SETTING,
+			LIST_CATEGORY,
+			HIT_COUNT,
+			RECORD_DATE,
+			SCREENING_TIME,
+			ALERT_TIME,
+			DEADLINE_DATE,
+			REVIEW_LEVEL,
+			LEVEL1_USER,
+			ALERT_SCORE,
+			REVIEW_UNIT,
+			BATCH_SEQ_NO, 
+			REGION_UNIT,
+			#{userId}, 
+			#{action}, 
+			#{reviewNotes}, 
+			#{closedTime}
+		FROM 
+			CMT.TB_MSG_ALERT
+		WHERE 
+			MSG_ALERT_SEQ_NO=#{alertSeqNo}
+	</insert>
+
+	<delete id="deleteMsgAlert" parameterType="java.lang.Long">
+        DELETE FROM
+        	CMT.TB_MSG_ALERT
+        WHERE
+        	MSG_ALERT_SEQ_NO=#{alertSeqNo}
+    </delete>
+
+	<insert id="insertAlertReviewHistory" parameterType="com.esb.saml.db.cmt.AlertReviewHistoryBo">
+		INSERT INTO CMT.TB_ALERT_REVIEW_HISTORY
+		(
+			MAPPING_ALERT_SEQ_NO,
+			ALERT_TYPE,
+			REVIEW_ACTION,
+			REVIEW_DESC,
+			BEFORE_REVIEW_LEVEL,
+			AFTER_REVIEW_LEVEL,
+			UPDATE_TIME,
+			UPDATE_USER
+		)
+		VALUES
+		(
+            #{alertSeqNo},
+            #{alertType},
+            #{action},
+            #{desc},
+            #{beforeReviewLevel},
+            #{afterReviewLevel},
+            #{updateTime},
+            #{updateUser}
+        )
+	</insert>
+
+	<insert id="insertAlertReviewHistories" parameterType="java.util.List">
+		INSERT INTO CMT.TB_ALERT_REVIEW_HISTORY
+		(
+			MAPPING_ALERT_SEQ_NO,
+			ALERT_TYPE,
+			REVIEW_ACTION,
+			REVIEW_DESC,
+			BEFORE_REVIEW_LEVEL,
+			AFTER_REVIEW_LEVEL,
+			UPDATE_TIME,
+			UPDATE_USER
+		)
+		<foreach collection="list" item="item" index="index" separator="UNION ALL">
+			SELECT
+	            #{item.alertSeqNo},
+	            #{item.alertType},
+	            #{item.action},
+	            #{item.desc},
+	            #{item.beforeReviewLevel},
+	            #{item.afterReviewLevel},
+	            #{item.updateTime},
+	            #{item.updateUser}
+            FROM DUAL
+       </foreach>
+	</insert>
+
+	<select id="getAlertFileTotalSize" parameterType="map" resultMap="AlertFileBo">
+		SELECT 
+			MAPPING_ALERT_SEQ_NO,
+			SUM(FILE_SIZE) AS FILE_SIZE 
+		FROM 
+			CMT.TB_ALERT_FILE 
+		WHERE 
+			MAPPING_ALERT_SEQ_NO IN
+		<foreach collection="alertSeqNoList" item="alertSeqNo" separator="," open="(" close=")">
+				#{alertSeqNo}
+			</foreach>
+		AND ALERT_TYPE=#{alertType} 
+		GROUP BY 
+			MAPPING_ALERT_SEQ_NO
+	</select>
+
+	<insert id="insertAlertFile" parameterType="java.util.List">
+		begin
+		<foreach collection="list" item="file" index="index" separator=";">
+			INSERT INTO CMT.TB_ALERT_FILE
+			(
+				MAPPING_ALERT_SEQ_NO,
+				ALERT_TYPE,
+				FILE_CONTENT,
+				FILE_NAME,
+				FILE_TYPE,
+				FILE_SIZE,
+				FILE_DESC,
+				CREATE_TIME,
+				CREATE_USER
+			)
+			VALUES
+			(
+				#{file.alertSeqNo},
+				#{file.alertType},
+				#{file.fileContent,typeHandler=org.apache.ibatis.type.BlobTypeHandler},
+				#{file.fileName},
+				#{file.fileType},
+				#{file.fileSize},			
+				#{file.fileDesc},			
+				#{file.createTime},			
+				#{file.createUser}	
+			)
+		</foreach>
+		;end;
+	</insert>
+
+	<select id="queryAlertFileBySeqNo" parameterType="java.lang.Long" resultMap="AlertFileBo">
+		SELECT
+			A.MAPPING_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.ALERT_FILE_SEQ_NO,
+			A.FILE_CONTENT,
+			A.FILE_NAME,
+			A.FILE_TYPE,
+			A.FILE_SIZE,
+			A.FILE_DESC,
+			A.CREATE_TIME,
+			A.CREATE_USER
+		FROM
+			CMT.TB_ALERT_FILE A
+		WHERE
+			A.ALERT_FILE_SEQ_NO=#{seqNo}
+	</select>
+
+	<delete id="deleteAlertFile" parameterType="java.lang.Long">
+        DELETE FROM
+        	CMT.TB_ALERT_FILE
+        WHERE
+        	ALERT_FILE_SEQ_NO=#{seqNo}
+    </delete>
+
+
+	<select id="queryTxnAlert" parameterType="map" resultMap="TxnAlertBo">
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.TXN_ALERT_SEQ_NO,
+				A.ALERT_TYPE,
+				A.SOURCE_SYSTEM,
+				A.BUSINESS_TYPE,
+				A.BUSINESS_UNIT,
+				A.TXN_KEY,
+				A.TXN_TYPE,
+				A.REMITTANCE_NO,
+				A.DRAFT_NO,
+				A.REFERENCE_NO,
+				A.CURRENCY,
+				A.AMOUNT,
+				A.MESSAGE_TYPE,
+				A.DIRECTION,
+				A.TXN_TIME,
+				A.REGULATORY_REPORTING,
+				A.REMITTANCE_INFO,
+				A.FI_TO_FI_INFO_1,
+				A.FI_TO_FI_INFO_2,
+				A.VALUE_DATE,
+				A.IS_RTGS,
+				A.SCREENING_SETTING,
+				A.LIST_CATEGORY,
+				A.HIT_COUNT,
+				A.RECORD_DATE,
+				A.SCREENING_TIME,
+				A.ALERT_TIME,
+				A.DEADLINE_DATE,
+				A.REVIEW_LEVEL,
+				A.LEVEL1_USER,
+				A.REVIEW_USER,
+				A.ALERT_SCORE,
+				A.REVIEW_UNIT,
+				A.STATUS,
+				A.REVIEW_STATUS,
+				A.REVIEW_NOTES,
+				A.ASSIGN_USER,
+				A.LOCKED
+			FROM
+				CMT.TB_TXN_ALERT A
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		${orderCondition}
+		<if test="offset != null and limit != null">
+			OFFSET #{offset} ROWS FETCH  NEXT #{limit} ROWS ONLY
+        </if>
+	</select>
+
+	<select id="countTxnAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1)
+		FROM (
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.TXN_ALERT_SEQ_NO
+			FROM
+				CMT.TB_TXN_ALERT A
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		)
+	</select>
+
+	<select id="queryCloseTxnAlert" parameterType="map" resultMap="TxnAlertBo">
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.TXN_ALERT_SEQ_NO,
+				A.ALERT_TYPE,
+				A.SOURCE_SYSTEM,
+				A.BUSINESS_TYPE,
+				A.BUSINESS_UNIT,
+				A.TXN_KEY,
+				A.TXN_TYPE,
+				A.REMITTANCE_NO,
+				A.DRAFT_NO,
+				A.REFERENCE_NO,
+				A.CURRENCY,
+				A.AMOUNT,
+				A.MESSAGE_TYPE,
+				A.DIRECTION,
+				A.TXN_TIME,
+				A.REGULATORY_REPORTING,
+				A.REMITTANCE_INFO,
+				A.FI_TO_FI_INFO_1,
+				A.FI_TO_FI_INFO_2,
+				A.VALUE_DATE,
+				A.IS_RTGS,
+				A.SCREENING_SETTING,
+				A.LIST_CATEGORY,
+				A.HIT_COUNT,
+				A.RECORD_DATE,
+				A.SCREENING_TIME,
+				A.ALERT_TIME,
+				A.DEADLINE_DATE,
+				A.REVIEW_LEVEL,
+				A.LEVEL1_USER,
+				A.REVIEW_USER,
+				A.ALERT_SCORE,
+				A.REVIEW_UNIT,
+				A.STATUS,
+				A.REVIEW_NOTES,
+				A.CLOSED_TIME
+			FROM
+				CMT.TB_TXN_ALERT_HISTORY A
+			WHERE
+				A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		${orderCondition}
+		<if test="offset != null and limit != null">
+			OFFSET #{offset} ROWS FETCH  NEXT #{limit} ROWS ONLY
+        </if>
+	</select>
+
+	<select id="countCloseTxnAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1)
+		FROM (
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.TXN_ALERT_SEQ_NO
+			FROM
+				CMT.TB_TXN_ALERT_HISTORY A
+			WHERE
+				A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			<!-- AND A.REVIEW_UNIT IN
+				<foreach collection="reviewUnitList" item="reviewUnit" separator="," open="(" close=")">
+					#{reviewUnit}
+				</foreach> -->
+			${whereCondition}
+		</foreach>
+		)
+	</select>
+
+	<select id="queryTxnAlertByAlertSeqNo" parameterType="java.lang.Long" resultMap="TxnAlertBo">
+		SELECT
+			A.TXN_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.SOURCE_SYSTEM,
+			A.BUSINESS_TYPE,
+			A.BUSINESS_UNIT,
+			A.TXN_KEY,
+			A.TXN_TYPE,
+			A.REMITTANCE_NO,
+			A.DRAFT_NO,
+			A.REFERENCE_NO,
+			A.CURRENCY,
+			A.AMOUNT,
+			A.MESSAGE_TYPE,
+			A.DIRECTION,
+			A.TXN_TIME,
+			A.REGULATORY_REPORTING,
+			A.REMITTANCE_INFO,
+			A.FI_TO_FI_INFO_1,
+			A.FI_TO_FI_INFO_2,
+			A.VALUE_DATE,
+			A.IS_RTGS,
+			A.SCREENING_SETTING,
+			A.LIST_CATEGORY,
+			A.HIT_COUNT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME,
+			A.DEADLINE_DATE,
+			A.REVIEW_LEVEL,
+			A.LEVEL1_USER,
+			A.REVIEW_USER,
+			A.ALERT_SCORE,
+			A.REVIEW_UNIT,
+			A.STATUS,
+			A.REVIEW_STATUS,
+			A.REVIEW_NOTES,
+			A.ASSIGN_USER,
+			A.LOCKED
+		FROM 
+			CMT.TB_TXN_ALERT A
+		WHERE 
+			A.TXN_ALERT_SEQ_NO = #{alertSeqNo}
+		UNION ALL
+		SELECT
+			A.TXN_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.SOURCE_SYSTEM,
+			A.BUSINESS_TYPE,
+			A.BUSINESS_UNIT,
+			A.TXN_KEY,
+			A.TXN_TYPE,
+			A.REMITTANCE_NO,
+			A.DRAFT_NO,
+			A.REFERENCE_NO,
+			A.CURRENCY,
+			A.AMOUNT,
+			A.MESSAGE_TYPE,
+			A.DIRECTION,
+			A.TXN_TIME,
+			A.REGULATORY_REPORTING,
+			A.REMITTANCE_INFO,
+			A.FI_TO_FI_INFO_1,
+			A.FI_TO_FI_INFO_2,
+			A.VALUE_DATE,
+			A.IS_RTGS,
+			A.SCREENING_SETTING,
+			A.LIST_CATEGORY,
+			A.HIT_COUNT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME,
+			A.DEADLINE_DATE,
+			A.REVIEW_LEVEL,
+			A.LEVEL1_USER,
+			A.REVIEW_USER,
+			A.ALERT_SCORE,
+			A.REVIEW_UNIT,
+			A.STATUS,
+			'Close',
+			A.REVIEW_NOTES,
+			'',
+			'N'
+		FROM 
+			CMT.TB_TXN_ALERT_HISTORY A
+		WHERE 
+			A.TXN_ALERT_SEQ_NO = #{alertSeqNo}
+	</select>
+
+	<select id="queryTxnAlertOther" parameterType="java.lang.Long" resultMap="TxnAlertOtherBo">
+		SELECT
+			A.MESSAGE_TYPE,
+			A.QUERIES_OR_ANSWERS,
+			A.NARRATIVE,
+			A.NARRATIVE_DESC,
+			A.DATA_INDEX
+		FROM 
+			CMT.TB_TXN_ALERT_OTHER_INFO A
+		WHERE 
+			A.TXN_ALERT_SEQ_NO = #{alertSeqNo}
+	</select>
+
+	<select id="queryTxnAlertRemittance" parameterType="java.lang.Long" resultMap="TxnAlertRemBo">
+		SELECT
+			A.TYPE,
+			A.NAME,
+			A.ID,
+			A.ADDRESS,
+			A.COUNTRY,
+			A.DETAILS
+		FROM 
+			CMT.TB_TXN_ALERT_REM_INFO A
+		WHERE 
+			A.TXN_ALERT_SEQ_NO = #{alertSeqNo}
+	</select>
+
+	<select id="queryHistoryTxnAlert" parameterType="java.lang.String" resultMap="TxnAlertBo">
+		SELECT
+			A.TXN_ALERT_SEQ_NO,
+			A.ALERT_TYPE,
+			A.LIST_CATEGORY,
+			A.HIT_COUNT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME,
+			A.LEVEL1_USER,
+			A.REVIEW_USER,
+			A.STATUS,
+			A.CLOSED_TIME
+		FROM
+			CMT.TB_TXN_ALERT_HISTORY A
+		WHERE
+			A.TXN_KEY=#{txnKey}
+	</select>
+
+	<select id="countLockedTxnAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1)
+		FROM
+			CMT.TB_TXN_ALERT
+		WHERE
+			ASSIGN_USER=#{assignUser} 
+			AND REGION_UNIT=#{regionUnit}
+			AND LOCKED='Y'
+	</select>
+
+	<update id="lockTxnAlert" parameterType="map">
+		UPDATE 
+			CMT.TB_TXN_ALERT 
+		SET
+			ASSIGN_USER=#{assignUser}, LOCKED='Y'
+		WHERE
+			TXN_ALERT_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<update id="unlockTxnAlert" parameterType="java.lang.Long">
+		UPDATE 
+			CMT.TB_TXN_ALERT 
+		SET
+			ASSIGN_USER=null, LOCKED='N'
+		WHERE
+			TXN_ALERT_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<update id="changeTxnAlertStatus" parameterType="map">
+		UPDATE 
+			CMT.TB_TXN_ALERT 
+		SET
+			STATUS=#{status},
+			REVIEW_STATUS=#{reviewStatus}
+		<if test="level1User != null">
+               	, LEVEL1_USER=#{level1User}
+           	</if>
+		<if test="reviewNotes != null">
+               	, REVIEW_LEVEL=#{reviewLevel}
+           	</if>
+		<if test="reviewNotes != null">
+               	, REVIEW_NOTES=#{reviewNotes}
+           	</if>
+		<if test="assignUser != null">
+             	, ASSIGN_USER=#{assignUser}
+             	, LOCKED = 'Y'
+           	</if>
+		<if test="assignUser == null">
+             	, LOCKED = 'N'
+           	</if>
+		WHERE
+			TXN_ALERT_SEQ_NO=#{alertSeqNo}
+	</update>
+
+	<update id="updateTxnAlert" parameterType="map">
+		UPDATE 
+			CMT.TB_TXN_ALERT 
+		SET
+			REVIEW_NOTES=#{reviewNotes}
+		WHERE
+			TXN_ALERT_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<insert id="insertTxnAlertHistory" parameterType="map">
+		INSERT INTO CMT.TB_TXN_ALERT_HISTORY
+		(
+			TXN_ALERT_SEQ_NO,
+			ALERT_TYPE,
+			SOURCE_SYSTEM,
+			BUSINESS_TYPE,
+			BUSINESS_UNIT,
+			TXN_KEY,
+			TXN_TYPE,
+			REMITTANCE_NO,
+			DRAFT_NO,
+			REFERENCE_NO,
+			CURRENCY,
+			AMOUNT,
+			MESSAGE_TYPE,
+			DIRECTION,
+			TXN_TIME,
+			REGULATORY_REPORTING,
+			REMITTANCE_INFO,
+			FI_TO_FI_INFO_1,
+			FI_TO_FI_INFO_2,
+			VALUE_DATE,
+			IS_RTGS,
+			SCREENING_SETTING,
+			LIST_CATEGORY,
+			HIT_COUNT,
+			RECORD_DATE,
+			SCREENING_TIME,
+			ALERT_TIME,
+			DEADLINE_DATE,
+			REVIEW_LEVEL,
+			LEVEL1_USER,
+			ALERT_SCORE,
+			REVIEW_UNIT,
+			BATCH_SEQ_NO,
+			REGION_UNIT,
+			REVIEW_USER,
+			STATUS,
+			REVIEW_NOTES,
+			CLOSED_TIME
+		)
+		SELECT
+			TXN_ALERT_SEQ_NO, 
+			ALERT_TYPE,
+			SOURCE_SYSTEM,
+			BUSINESS_TYPE,
+			BUSINESS_UNIT,
+			TXN_KEY,
+			TXN_TYPE,
+			REMITTANCE_NO,
+			DRAFT_NO,
+			REFERENCE_NO,
+			CURRENCY,
+			AMOUNT,
+			MESSAGE_TYPE,
+			DIRECTION,
+			TXN_TIME,
+			REGULATORY_REPORTING,
+			REMITTANCE_INFO,
+			FI_TO_FI_INFO_1,
+			FI_TO_FI_INFO_2,
+			VALUE_DATE,
+			IS_RTGS,
+			SCREENING_SETTING,
+			LIST_CATEGORY,
+			HIT_COUNT,
+			RECORD_DATE,
+			SCREENING_TIME,
+			ALERT_TIME,
+			DEADLINE_DATE,
+			REVIEW_LEVEL,
+			LEVEL1_USER,
+			ALERT_SCORE,
+			REVIEW_UNIT,
+			BATCH_SEQ_NO,
+			REGION_UNIT,
+			#{userId}, 
+			#{action}, 
+			#{reviewNotes}, 
+			#{closedTime}
+		FROM 
+			CMT.TB_TXN_ALERT
+		WHERE 
+			TXN_ALERT_SEQ_NO=#{alertSeqNo}
+	</insert>
+
+	<delete id="deleteTxnAlert" parameterType="java.lang.Long">
+        DELETE FROM
+        	CMT.TB_TXN_ALERT
+        WHERE
+        	TXN_ALERT_SEQ_NO=#{alertSeqNo}
+    </delete>
+
+	<select id="queryCusAlert" parameterType="map" resultMap="CusAlertAggBo">
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.CUS_ALERT_AGG_SEQ_NO,
+				A.CASE_COUNT,
+				A.CASE_NO,
+				A.ALERT_TYPE,
+				A.SOURCE_SYSTEM,
+				A.BUSINESS_TYPE,
+				A.BUSINESS_UNIT,
+				A.PARTY_KEY,
+				A.PARTY_TYPE,
+				A.RELATION_TYPE,
+				A.FULL_NAME,
+				A.NATIONAL_ID,
+				A.PASSPORT_NO,
+				A.DRIVING_LICENSE_NO,
+				A.SOCIAL_SECURITY_NO,
+				A.TAX_NO,
+				A.REGISTRATION_ID,
+				A.OTHER_ID,
+				A.BIC,
+				A.OTHER_COUNTRY,
+				A.HIT_REDUCTION,
+				A.UPDATE_TIME,
+				A.SCREENING_SETTING,
+				A.LIST_CATEGORY,
+				A.HIT_COUNT,
+				A.RECORD_DATE,
+				A.SCREENING_TIME,
+				A.ALERT_TIME,
+				A.DEADLINE_DATE,
+				A.REVIEW_LEVEL,
+				A.LEVEL1_USER,
+				A.REVIEW_USER,
+				A.ALERT_SCORE,
+				A.REVIEW_UNIT,
+				A.STATUS,
+				A.REVIEW_STATUS,
+				A.REVIEW_NOTES,
+				A.ASSIGN_USER,
+				A.LOCKED
+			FROM
+				CMT.TB_CUS_ALERT_AGGREGATION A
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+			${whereCondition}
+		</foreach>
+		${orderCondition}
+		<if test="offset != null and limit != null">
+			OFFSET #{offset} ROWS FETCH  NEXT #{limit} ROWS ONLY
+        </if>
+	</select>
+
+	<select id="queryCusAlertByJobId" parameterType="map" resultMap="CusAlertAggBo">
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.CUS_ALERT_AGG_SEQ_NO,
+				A.CASE_COUNT,
+				A.CASE_NO,
+				A.ALERT_TYPE,
+				A.SOURCE_SYSTEM,
+				A.BUSINESS_TYPE,
+				A.BUSINESS_UNIT,
+				A.PARTY_KEY,
+				A.PARTY_TYPE,
+				A.RELATION_TYPE,
+				A.FULL_NAME,
+				A.NATIONAL_ID,
+				A.PASSPORT_NO,
+				A.DRIVING_LICENSE_NO,
+				A.SOCIAL_SECURITY_NO,
+				A.TAX_NO,
+				A.REGISTRATION_ID,
+				A.OTHER_ID,
+				A.BIC,
+				A.OTHER_COUNTRY,
+				A.HIT_REDUCTION,
+				A.UPDATE_TIME,
+				A.SCREENING_SETTING,
+				A.LIST_CATEGORY,
+				A.HIT_COUNT,
+				A.RECORD_DATE,
+				A.SCREENING_TIME,
+				A.ALERT_TIME,
+				A.DEADLINE_DATE,
+				A.REVIEW_LEVEL,
+				A.LEVEL1_USER,
+				A.REVIEW_USER,
+				A.ALERT_SCORE,
+				A.REVIEW_UNIT,
+				A.STATUS,
+				A.REVIEW_STATUS,
+				A.REVIEW_NOTES,
+				A.ASSIGN_USER,
+				A.LOCKED
+			FROM
+				CMT.TB_CUS_ALERT_AGGREGATION A
+			LEFT JOIN CMT.TB_CUS_ALERT B ON A.CUS_ALERT_AGG_SEQ_NO = B.CUS_ALERT_AGG_SEQ_NO
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+				AND B.JOB_ID=#{jobId}
+			${whereCondition}
+			GROUP BY A.CUS_ALERT_AGG_SEQ_NO,
+				A.CASE_COUNT, A.CASE_NO,A.ALERT_TYPE,A.SOURCE_SYSTEM,A.BUSINESS_TYPE,A.BUSINESS_UNIT,
+				A.PARTY_KEY,A.PARTY_TYPE,A.RELATION_TYPE,A.FULL_NAME,A.NATIONAL_ID,A.PASSPORT_NO,
+				A.DRIVING_LICENSE_NO,A.SOCIAL_SECURITY_NO,A.TAX_NO,A.REGISTRATION_ID,A.OTHER_ID,A.BIC,
+				A.OTHER_COUNTRY,A.HIT_REDUCTION,A.UPDATE_TIME,A.SCREENING_SETTING,A.LIST_CATEGORY,
+				A.HIT_COUNT,A.RECORD_DATE,A.SCREENING_TIME,A.ALERT_TIME,A.DEADLINE_DATE,A.REVIEW_LEVEL,
+				A.LEVEL1_USER,A.REVIEW_USER,A.ALERT_SCORE,A.REVIEW_UNIT,A.STATUS,A.REVIEW_STATUS,
+				A.REVIEW_NOTES,A.ASSIGN_USER,A.LOCKED
+		</foreach>
+		${orderCondition}
+		<if test="offset != null and limit != null">
+			OFFSET #{offset} ROWS FETCH  NEXT #{limit} ROWS ONLY
+        </if>
+	</select>
+
+	<select id="countCusAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1)
+		FROM (
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.CUS_ALERT_AGG_SEQ_NO
+			FROM
+				CMT.TB_CUS_ALERT_AGGREGATION A
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+				${whereCondition}
+		</foreach>
+		)
+	</select>
+
+	<select id="countCusAlertByJobId" parameterType="map" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(1)
+		FROM (
+		<foreach collection="alertTypeReviewUnitMap" index="alertType" item="reviewUnitList" separator="UNION ALL">
+			SELECT
+				A.CUS_ALERT_AGG_SEQ_NO
+			FROM
+				CMT.TB_CUS_ALERT_AGGREGATION A
+			LEFT JOIN CMT.TB_CUS_ALERT B ON A.CUS_ALERT_AGG_SEQ_NO = B.CUS_ALERT_AGG_SEQ_NO
+			WHERE
+				A.REVIEW_STATUS=#{reviewStatus} 
+				AND A.ALERT_TYPE=#{alertType} 
+				AND A.REGION_UNIT=#{regionUnit}
+				AND B.JOB_ID=#{jobId}
+				${whereCondition}
+			GROUP BY A.CUS_ALERT_AGG_SEQ_NO
+		</foreach>
+		)
+	</select>
+
+	<select id="queryCusAlertAggByAlertAggSeqNo" parameterType="java.lang.Long" resultMap="CusAlertAggBo">
+		SELECT
+            A.CUS_ALERT_AGG_SEQ_NO,
+            A.ALERT_TYPE,
+			A.CASE_NO,
+            A.BUSINESS_TYPE,
+			A.BUSINESS_UNIT,
+            A.PARTY_KEY,
+            A.PARTY_TYPE,
+            A.SOURCE_SYSTEM,
+            A.RELATION_TYPE,
+            A.FULL_NAME,
+            A.NATIONAL_ID,
+            A.PASSPORT_NO,
+            A.DRIVING_LICENSE_NO,
+            A.SOCIAL_SECURITY_NO,
+            A.TAX_NO,
+            A.REGISTRATION_ID,
+            A.OTHER_ID,
+            A.BIC,
+            A.OTHER_COUNTRY,
+            A.HIT_REDUCTION,
+            A.SCREENING_SETTING,
+            A.LIST_CATEGORY,
+            A.HIT_COUNT,
+            A.RECORD_DATE,
+            A.SCREENING_TIME,
+            A.ALERT_TIME,
+            A.DEADLINE_DATE,
+            A.REVIEW_LEVEL,
+            A.LEVEL1_USER,
+            A.REVIEW_USER,
+            A.ALERT_SCORE,
+            A.REVIEW_UNIT,
+            A.STATUS,
+            A.REVIEW_NOTES,
+			A.REVIEW_STATUS,
+            A.ASSIGN_USER,
+            A.LOCKED,
+			(
+				SELECT count(1)
+				FROM CMT.TB_CUS_ALERT B
+				WHERE B.CUS_ALERT_AGG_SEQ_NO = A.CUS_ALERT_AGG_SEQ_NO
+			) AS CASE_COUNT
+		FROM 
+			CMT.TB_CUS_ALERT_AGGREGATION A
+		WHERE 
+			A.CUS_ALERT_AGG_SEQ_NO = #{alertAggSeqNo}
+	</select>
+
+	<select id="queryCusAlertByAlertAggSeqNo" parameterType="java.lang.Long" resultMap="CusAlertBo">
+		SELECT
+            A.CUS_ALERT_AGG_SEQ_NO,
+			A.CUS_ALERT_SEQ_NO,
+            A.ALERT_TYPE,
+            A.PARTY_KEY,
+            A.PARTY_TYPE,
+			A.MAIN_PARTY,
+			A.RELATION_TYPE,
+			A.BIRTHDAY,
+			A.REGISTRATION_DATE,
+            A.FULL_NAME,
+			A.FIRST_NAME,
+			A.LAST_NAME,
+			A.MAIDEN_NAME,
+			A.GENDER,
+            A.HIT_REDUCTION,
+            A.SCREENING_SETTING,
+            A.LIST_CATEGORY,
+            A.HIT_COUNT,
+            A.RECORD_DATE,
+            A.SCREENING_TIME,
+            A.ALERT_TIME,
+            A.DEADLINE_DATE,
+            A.REVIEW_LEVEL,
+            A.LEVEL1_USER,
+            A.REVIEW_USER,
+            A.ALERT_SCORE,
+            A.REVIEW_UNIT,
+			A.CASE_SEQ_NO
+		FROM 
+			CMT.TB_CUS_ALERT A
+		WHERE 
+			A.CUS_ALERT_AGG_SEQ_NO = #{alertAggSeqNo}
+	</select>
+
+	<select id="queryCusNameDetailByAlertSeqNo" parameterType="java.lang.Long" resultMap="CusNameDetailBo">
+		SELECT
+            A.FULL_NAME,
+			A.LAST_NAME,
+			A.FIRST_NAME,
+			A.MAIDEN_NAME
+		FROM 
+			CMT.TB_CUS_NAME_DETAIL A
+		WHERE 
+			A.CUS_ALERT_SEQ_NO = #{alertSeqNo}
+	</select>
+
+	<select id="queryCusIdDetailByAlertSeqNo" parameterType="java.lang.Long" resultMap="CusIdDetailBo">
+		SELECT
+            A.ID_TYPE,
+			A.ID_VALUE
+		FROM 
+			CMT.TB_CUS_ID_DETAIL A
+		WHERE 
+			A.CUS_ALERT_SEQ_NO = #{alertSeqNo}
+	</select>
+
+	<select id="queryCusCountryDetailByAlertSeqNo" parameterType="java.lang.Long" resultMap="CusCountryDetailBo">
+		SELECT
+            A.COUNTRY_TYPE,
+			A.COUNTRY_VALUE
+		FROM 
+			CMT.TB_CUS_COUNTRY_DETAIL A
+		WHERE 
+			A.CUS_ALERT_SEQ_NO = #{alertSeqNo}
+	</select>
+
+	<select id="queryHistoryCusAlert" parameterType="map" resultMap="CusAlertAggBo">
+		SELECT 
+			A.CUS_ALERT_AGG_SEQ_NO,
+			A.BUSINESS_TYPE,
+			A.ALERT_TYPE,
+			A.LIST_CATEGORY,
+			A.HIT_COUNT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME,
+			A.LEVEL1_USER,
+			A.REVIEW_USER,
+			A.STATUS,
+		<!--A.CLOSED_TIME, TODO -->
+		(
+				SELECT count(1)
+				FROM CMT.TB_CUS_ALERT B
+				WHERE B.CUS_ALERT_AGG_SEQ_NO = A.CUS_ALERT_AGG_SEQ_NO
+			) AS CASE_COUNT
+		FROM 
+			CMT.TB_CUS_ALERT_AGGREGATION A
+		WHERE 
+			A.PARTY_KEY = #{partyKey}
+			AND A.REVIEW_UNIT = #{reviewUnit}
+			AND A.REVIEW_STATUS = 'Close'
+	</select>
+
+	<select id="countLockedCusAlert" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1)
+		FROM
+			CMT.TB_CUS_ALERT_AGGREGATION
+		WHERE
+			ASSIGN_USER=#{assignUser} 
+			AND REGION_UNIT=#{regionUnit}
+			AND LOCKED='Y'
+	</select>
+
+	<update id="lockCusAlert" parameterType="map">
+		UPDATE 
+			CMT.TB_CUS_ALERT_AGGREGATION 
+		SET
+			ASSIGN_USER=#{assignUser}, LOCKED='Y'
+		WHERE
+			CUS_ALERT_AGG_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<update id="unlockCusAlert" parameterType="java.lang.Long">
+		UPDATE 
+			CMT.TB_CUS_ALERT_AGGREGATION 
+		SET
+			ASSIGN_USER=null, LOCKED='N'
+		WHERE
+			CUS_ALERT_AGG_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<update id="changeCusAlertStatus" parameterType="map">
+		UPDATE 
+			CMT.TB_CUS_ALERT_AGGREGATION 
+		SET
+			STATUS=#{status},
+			REVIEW_STATUS=#{reviewStatus}, 
+			REVIEW_USER=#{reviewUser}
+		<if test="reviewNotes != null">
+               	, REVIEW_LEVEL=#{reviewLevel}
+           	</if>
+		<if test="reviewNotes != null">
+               	, REVIEW_NOTES=#{reviewNotes}
+           	</if>
+		<if test="assignUser != null and assignUser != '' ">
+             	, ASSIGN_USER=#{assignUser}
+             	, LOCKED = 'Y'
+           	</if>
+		<if test="assignUser == null or assignUser == '' ">
+             	, LOCKED = 'N'
+           	</if>
+		WHERE
+			CUS_ALERT_AGG_SEQ_NO=#{alertSeqNo}
+	</update>
+
+	<update id="updateCusAlert" parameterType="map">
+		UPDATE 
+			CMT.TB_CUS_ALERT_AGGREGATION 
+		SET
+			REVIEW_NOTES=#{reviewNotes}
+		WHERE
+			CUS_ALERT_AGG_SEQ_NO=#{alertSeqNo} 
+	</update>
+
+	<select id="queryCaseByCaseSeqNo" parameterType="map" resultMap="CaseBo">
+		SELECT
+			A.CASE_SEQ_NO,
+			A.ALERT_TYPE,
+			A.BUSINESS_TYPE,
+			A.REQ_MSG,
+			A.CASE_NO,
+			A.REVIEW_UNIT,
+			A.BUSINESS_SYSTEM,
+			A.BUSINESS_UNIT,
+			A.REGION_UNIT,
+			A.RECORD_DATE,
+			A.SCREENING_TIME,
+			A.ALERT_TIME
+		FROM 
+			CMT.TB_CASE A
+		WHERE A.CASE_SEQ_NO IN
+		<foreach collection="caseSeqNoList" item="caseSeqNo" separator="," open="(" close=")">
+			#{caseSeqNo}
+		</foreach>
+	</select>
+
+	<select id="queryAlertCaseByCaseSeqNo" parameterType="map" resultMap="CusRelationCaseBo">
+		SELECT
+			A.CASE_SEQ_NO AS MAP_CASE_SEQ_NO,
+            B.CUS_ALERT_AGG_SEQ_NO,
+			B.CUS_ALERT_SEQ_NO,
+            B.ALERT_TYPE,
+            B.PARTY_KEY,
+            B.PARTY_TYPE,
+			B.MAIN_PARTY,
+			B.RELATION_TYPE,
+			B.BIRTHDAY,
+			B.REGISTRATION_DATE,
+            B.FULL_NAME,
+			B.FIRST_NAME,
+			B.LAST_NAME,
+			B.MAIDEN_NAME,
+			B.GENDER,
+            B.HIT_REDUCTION,
+            B.SCREENING_SETTING,
+            B.LIST_CATEGORY,
+            B.HIT_COUNT,
+            B.RECORD_DATE,
+            B.SCREENING_TIME,
+            B.ALERT_TIME,
+            B.DEADLINE_DATE,
+            B.REVIEW_LEVEL,
+            B.LEVEL1_USER,
+            B.REVIEW_USER,
+            B.ALERT_SCORE,
+            B.REVIEW_UNIT,
+			B.CASE_SEQ_NO
+		FROM 
+			CMT.TB_ALERT_CASE_REL A
+		LEFT JOIN  
+			CMT.TB_CUS_ALERT B ON A.MAPPING_ALERT_SEQ_NO = B.CUS_ALERT_SEQ_NO
+		WHERE A.ALERT_TYPE = #{alertType}
+			AND A.CASE_SEQ_NO IN
+		<foreach collection="caseSeqNoList" item="caseSeqNo" separator="," open="(" close=")">
+			#{caseSeqNo}
+		</foreach>
+	</select>
+
+	<insert id="insertReductionHash" parameterType="com.esb.saml.db.cmt.ReductionHashBo">
+		INSERT INTO CMT.TB_REDUCTION_HASH
+		(
+			PARTY_KEY,
+			LIST_SOURCE,
+			ENTRY_ID,
+			HASH_KEY,
+			CREATE_TIME,
+			REGION_UNIT,
+			ALERT_TYPE,
+			BUSINESS_TYPE
+		)
+		<foreach collection="list" item="item" index="index" separator="UNION ALL">
+			SELECT
+	            #{partyKey},
+	            #{listSource},
+	            #{entryId},
+	            #{hashKey},
+	            #{createTime},
+	            #{regionUnit},
+	            #{alertType},
+	            #{businessType}
+            FROM DUAL
+       </foreach>
+	</insert>
+	<select id="queryCusCountryDetailByAlertSeqNo" parameterType="java.util.List" resultType="java.lang.Long">
+		WITH false_hit_data AS (
+		   SELECT
+		       COUNT(
+		           CASE
+		           WHEN hit_result = 'TRUE' or hit_result is null THEN
+		           1
+		           ELSE
+		           0
+		           END
+		       ) ture_hit_count,
+		       mapping_alert_seq_no
+		   FROM
+		       cmt.tb_alert_hit
+		   GROUP BY
+		       mapping_alert_seq_no
+		)
+		SELECT
+		  distinct tcaa.cus_alert_agg_seq_no
+		FROM
+		   cmt.tb_cus_alert_aggregation tcaa
+		   INNER JOIN cmt.tb_cus_alert tca ON tcaa.cus_alert_agg_seq_no = tca.cus_alert_agg_seq_no
+		   INNER JOIN false_hit_data   fh ON tca.cus_alert_seq_no = fh.mapping_alert_seq_no
+		WHERE fh.ture_hit_count = 0;
+    </select>
+
+	<select id="queryCusAlertSeqNo" parameterType="java.lang.Long" resultType="java.lang.Long">
+		SELECT
+		t1.cus_alert_seq_no
+		FROM
+		CMT.TB_CUS_ALERT t1
+		WHERE t1.CUS_ALERT_AGG_SEQ_NO =#{cusAlertAggSeqNo}
+ </select>
+</mapper>

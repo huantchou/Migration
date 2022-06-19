@@ -1,0 +1,34 @@
+package com.esb.saml.migration.common.bo;
+import java.util.Map;
+
+import com.esb.saml.migration.common.vo.UserMenuOperateVo;
+
+import lombok.Data;
+
+public class SessionInfoBo {
+    
+    /**
+     * 員工編號
+     */
+    private String userId;
+    
+    /**
+     * 員工所屬區域
+     */
+    private String regionUnit;
+    
+    /**
+     * 現行使用區域
+     */
+    private String reviewRegion;
+    
+    /**
+     * 可使用區域
+     */
+    private String[] regionList;
+    
+    /**
+     * 使用者權限清單
+     */
+    private Map<String, Map<String, UserMenuOperateVo>> menuOperateList;
+}

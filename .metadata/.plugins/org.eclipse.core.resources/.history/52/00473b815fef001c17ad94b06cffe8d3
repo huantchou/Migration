@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esb.saml.cmt.dao.cmt.CusMbBatchMonitorDao">
+
+	<resultMap id="CusMbBatchMonitor"
+		type="com.esb.saml.db.cmt.CusMbBatchMonitorBo">
+		<result column="CUS_MB_BATCH_MONITOR_SEQ_NO"
+			property="cusMbBatchMonitorSeqNo" />
+		<result column="JOB_NAME" property="jobName" />
+		<result column="JOB_SET_NAME" property="jobSetName" />
+		<result column="SS_UID" property="ssUid" />
+		<result column="SS_NAME" property="ssName" />
+		<result column="ALERT_GROUP" property="alertGroup" />
+		<result column="START_TIME" property="startTime" />
+		<result column="END_TIME" property="endTime" />
+		<result column="CREATE_USER" property="createUser" />
+		<result column="HAS_ALERT" property="hasAlert" />
+		<result column="RESULT" property="result" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+
+
+	<insert id="insert"
+		parameterType="com.esb.saml.db.cmt.CusMbBatchMonitorBo"
+		useGeneratedKeys="true" keyProperty="cusMbBatchMonitorSeqNo"
+		keyColumn="CUS_MB_BATCH_MONITOR_SEQ_NO">
+		INSERT INTO CMT.TB_CUS_MB_BATCH_MONITOR(JOB_NAME,
+		JOB_SET_NAME,
+		SS_UID,SS_NAME,ALERT_GROUP,
+		START_TIME,CREATE_USER,STATUS)
+		VALUES(#{jobName},
+		#{jobSetName},
+		#{ssUid},
+		#{ssName},
+		#{alertGroup}, #{startTime},
+		#{createUser},
+		#{status})
+	</insert>
+
+	<select id="query" parameterType="java.util.ArrayList"
+		resultMap="CusMbBatchMonitor">
+		SELECT
+		CUS_MB_BATCH_MONITOR_SEQ_NO,
+		JOB_NAME,
+		JOB_SET_NAME,
+		SS_UID,
+		SS_NAME,
+		ALERT_GROUP,
+		START_TIME,
+		END_TIME,
+		CREATE_USER,
+		HAS_ALERT,
+		RESULT,
+		STATUS
+		FROM CMT.TB_CUS_MB_BATCH_MONITOR
+		WHERE
+		STATUS IN
+		<foreach collection="list" item="item" separator="," open="("
+			close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<update id="updateStatus" parameterType="map">
+		UPDATE
+		CMT.TB_CUS_MB_BATCH_MONITOR
+		<set>
+			<if test="status != null">
+				STATUS=#{status},
+			</if>
+
+			<if test="endTime != null">
+				END_TIME=#{endTime},
+			</if>
+
+			<if test="result != null">
+				RESULT=#{result},
+			</if>
+			
+			<if test="hasAlert != null">
+				HAS_ALERT=#{hasAlert},
+			</if>
+			
+		</set>
+		WHERE
+		CUS_MB_BATCH_MONITOR_SEQ_NO=#{cusMbBatchMonitorSeqNo}
+	</update>
+
+</mapper>

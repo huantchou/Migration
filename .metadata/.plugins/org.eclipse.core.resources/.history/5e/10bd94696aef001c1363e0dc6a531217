@@ -1,0 +1,17 @@
+package com.esb.saml.migration;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+//@ComponentScan({"com.esb.saml.migration", "com.esb.saml.api.common.dao"})
+@ComponentScan({"com.esb.saml.migration", "com.esb.saml.api.common.dao"})
+
+public class MigrationApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MigrationApplication.class, args);
+	}
+
+}

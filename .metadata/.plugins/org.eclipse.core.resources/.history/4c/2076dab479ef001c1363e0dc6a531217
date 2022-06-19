@@ -1,0 +1,211 @@
+package com.esb.saml.migration.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+//import com.esb.saml.cmt.util.SessionInfoThreadLocal;
+import com.esb.saml.common.entity.staticenum.CusBusinessType;
+import com.esb.saml.db.cmt.AlertHitBo;
+import com.esb.saml.db.cmt.AlertMatchBo;
+import com.esb.saml.db.cmt.AlertMatchTfBo;
+import com.esb.saml.db.cmt.CusAlertAggregationBo;
+import com.esb.saml.db.cmt.CusAlertBo;
+import com.esb.saml.db.cmt.CusCountryDetailBo;
+import com.esb.saml.db.cmt.ReductionHashBo;
+import com.esb.saml.db.lmt.CountryDetailBo;
+import com.esb.saml.db.lmt.EntryDetailBo;
+import com.esb.saml.migration.dao.cmt.impl.MgrAlertManagementDaoImpl;
+import com.esb.saml.migration.enums.AlertReviewStatusEnum;
+import com.esb.saml.migration.util.SessionInfoThreadLocal;
+import com.esb.saml.se.common.entity.req.cus.CountryBo;
+import com.esb.saml.se.common.entity.staticenum.Region;
+import com.esb.saml.utils.CusUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+//import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.util.StringUtil;
+
+/**
+ * Migration相關程式處理
+ * 
+ * @author Huant
+ * @date 2022年6月16日
+ * @remark
+ */
+@Service
+public class MigrationService {
+	/**
+	 * logger
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(MigrationService.class);
+
+	@Autowired
+	private MgrAlertManagementDaoImpl mgrAlertManagementDao;
+
+	public List<Long> samlCloseAlert() throws Exception {
+		try {
+			final List<Long> intList = mgrAlertManagementDao.queryAlertAggregationSeqNo();
+
+			System.out.println("intList.size() = " + intList.size());
+			if (CollectionUtils.isNotEmpty(intList)) {
+				for (Long cusAlertAggSeqNo : intList) {
+
+					mgrAlertManagementDao.changeMsgAlertStatus(cusAlertAggSeqNo,
+							AlertReviewStatusEnum.FALSE.getContext(), AlertReviewStatusEnum.CLOSE.getContext(), "", 1,
+							"", "");
+
+					final List<Long> alertSeqNoLt = mgrAlertManagementDao.queryCusAlertSeqNo(cusAlertAggSeqNo);
+					
+					for (Long alertSeqNo : alertSeqNoLt) {
+						// TODO 產生hashkey方法暫時有問題
+						List<CusAlertBo> cusAlertList = mgrAlertManagementDao.queryCusAlertByAlertAggSeqNo(alertSeqNo);
+						String businessType = "";
+						Boolean isFistGetAggData = true;
+						for (CusAlertBo cusAlertCase : cusAlertList) {
+							if (!CusUtils.checkPartyKeySysGen(cusAlertCase.getPartyKey())) {
+								if (isFistGetAggData) {
+									CusAlertAggregationBo alertAgg = mgrAlertManagementDao
+											.queryCusAlertAggByAlertAggSeqNo(alertSeqNo);
+									businessType = alertAgg.getBusinessType();
+									isFistGetAggData = false;
+								}
+//								generateCusHashKey(cusAlertCase, businessType);
+							}
+						}
+					}
+				}
+
+			}
+		} catch (Exception e) {
+			logger.error("" + e.getMessage(), e);
+		}
+		return null;
+	}
+
+	private void generateCusHashKey(CusAlertBo cusAlertCase, String businessType)
+			throws JsonMappingException, JsonProcessingException {
+		Long alertSeqNo = cusAlertCase.getCusAlertSeqNo();
+		String region = SessionInfoThreadLocal.get().getRegionUnit();
+
+		List<ReductionHashBo> reductionHashBos = new ArrayList<ReductionHashBo>();
+		// 存放命中資料，<命中主鍵, 命中資料>
+		Map<String, AlertHitBo> hitMap = new LinkedHashMap<String, AlertHitBo>();
+		// 存放命中資料底下之match資料，<命中主鍵, <match主鍵, match資料>>
+		Map<String, Map<String, AlertMatchBo>> matchMap = new LinkedHashMap<>();
+		// 存放match資料底下之tuning factor資料，<match主鍵, tuning factor資料>
+		Map<String, List<AlertMatchTfBo>> tfMap = new LinkedHashMap<>();
+
+		ObjectMapper mapper = new ObjectMapper();
+		String orderCondition = "ORDER BY A.HIT_SCORE DESC, A.ENTRY_ID ASC";
+		List<AlertHitBo> hitList = mgrAlertManagementDao.queryAlertHit(alertSeqNo, cusAlertCase.getAlertType(),
+				orderCondition);
+		for (AlertHitBo hitBo : hitList) {
+			// gen hitMapInit and set CusAlertHitKeyVo
+			if (!hitBo.getAutoFlag().equals("Y")) {
+				AlertHitBo bo = hitMap.get(hitBo.getHitKey());
+				if (bo == null) {
+					hitMap.put(hitBo.getHitKey(), hitBo);
+				}
+
+				Map<String, AlertMatchBo> map = matchMap.get(hitBo.getHitKey());
+				if (map == null) {
+					map = new LinkedHashMap<String, AlertMatchBo>();
+				}
+				AlertMatchBo matchBo = new AlertMatchBo();
+				matchBo.setFinalScore(hitBo.getFinalScore());
+				matchBo.setFromIndex(hitBo.getFromIndex());
+				matchBo.setHitKey(hitBo.getHitKey());
+				matchBo.setMatchDetail(hitBo.getMatchDetail());
+				matchBo.setMatchedColumnTag(hitBo.getMatchedColumnTag());
+				matchBo.setMatchedList(hitBo.getMatchedList());
+				matchBo.setMatchedSubType(hitBo.getMatchedSubType());
+				matchBo.setMatchedText(hitBo.getMatchedText());
+				matchBo.setMatchedType(hitBo.getMatchedType());
+				matchBo.setMatchKey(hitBo.getMatchKey());
+				matchBo.setMatchMethod(hitBo.getMatchMethod());
+				matchBo.setMatchScore(hitBo.getMatchScore());
+				matchBo.setToIndex(hitBo.getToIndex());
+				map.put(hitBo.getMatchKey(), matchBo);
+				matchMap.put(hitBo.getHitKey(), map);
+
+				List<AlertMatchTfBo> tfList = tfMap.get(hitBo.getMatchKey());
+				if (tfList == null) {
+					tfList = new ArrayList<AlertMatchTfBo>();
+				}
+				if (StringUtils.hasText(hitBo.getTfType())) {
+					// 此欄位有值，表示有tuning factor資料
+					AlertMatchTfBo tfBo = new AlertMatchTfBo();
+					tfBo.setMatchKey(hitBo.getMatchKey());
+					tfBo.setTfType(hitBo.getTfType());
+					tfBo.setTfScore(hitBo.getTfScore());
+					tfList.add(tfBo);
+				}
+				tfMap.put(hitBo.getMatchKey(), tfList);
+			}
+		}
+
+		for (AlertHitBo hitBo : hitMap.values()) {
+			List<AlertMatchBo> matchList = new ArrayList<AlertMatchBo>();
+			// 取得HIT對應MATCH資料
+			Map<String, AlertMatchBo> matchBoMap = matchMap.get(hitBo.getHitKey());
+			for (AlertMatchBo matchBo : matchBoMap.values()) {
+				// 取得match對應tf資料
+				List<AlertMatchTfBo> tfList = tfMap.get(matchBo.getMatchKey());
+				matchBo.setTfList(tfList);
+				matchList.add(matchBo);
+			}
+			hitBo.setMatchList(matchList);
+
+			List<CountryBo> countryList = new ArrayList<CountryBo>();
+			List<CusCountryDetailBo> countryDetailData = mgrAlertManagementDao
+					.queryCusCountryDetailByAlertSeqNo(alertSeqNo);
+			for (int i = 0; i < countryDetailData.size(); i++) {
+				CusCountryDetailBo cusCountryData = countryDetailData.get(i);
+				CountryBo countryBo = new CountryBo();
+				if (cusCountryData.getValueType() != null && cusCountryData.getValueType().equals("ISO")) {
+					countryBo.setCountryValue(cusCountryData.getCountryValue());
+					countryList.add(countryBo);
+				}
+			}
+			Set<String> iso2Set = new HashSet<String>();
+
+			EntryDetailBo entryDetail = mapper.readValue(hitBo.getEntryJson(), EntryDetailBo.class);
+			for (int i = 0; i < entryDetail.getNationalList().size(); i++) {
+				CountryDetailBo entryCountryData = entryDetail.getNationalList().get(i);
+				if (StringUtil.isNotEmpty(entryCountryData.getCountryIso())) {
+					iso2Set.add(entryCountryData.getCountryIso());
+				}
+			}
+			logger.info("genHashKey");
+			logger.info(hitBo.toString());
+			logger.info(countryList.toString());
+			logger.info(iso2Set.toString());
+			String hashK = CusUtils.genHashKey(hitBo, countryList, iso2Set);
+			ReductionHashBo reductionData = new ReductionHashBo();
+			reductionData.setPartyKey(cusAlertCase.getPartyKey());
+			reductionData.setListSource(hitBo.getListSource());
+			reductionData.setEntryId(hitBo.getEntryId());
+			reductionData.setHashKey(hashK);
+			reductionData.setCreateTime(new Date());
+			reductionData.setRegionUnit(Region.valueOf(region));
+			reductionData.setAlertType(cusAlertCase.getAlertType());
+			reductionData.setBusinessType(CusBusinessType.valueOf(businessType));
+			reductionHashBos.add(reductionData);
+		}
+		mgrAlertManagementDao.insertReductionHash(reductionHashBos);
+	}
+
+}

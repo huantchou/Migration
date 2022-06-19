@@ -1,0 +1,22 @@
+package com.esb.saml.migration.exception;
+
+public enum SamlErrorStatus {
+	  /**
+     * 未知錯誤(一般錯誤)
+     */
+    UNKNOWN_ERROR("sys9999", "Unknown Error!");
+    /**
+     * Code
+     */
+    private final String code;
+    /**
+     * 錯誤說明
+     */
+    private final String message;
+
+    SamlErrorStatus(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+}

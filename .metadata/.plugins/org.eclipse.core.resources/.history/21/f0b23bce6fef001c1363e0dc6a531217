@@ -1,0 +1,29 @@
+/**
+ * 
+ */
+package com.esb.saml.migration.common.vo;
+
+import java.util.Map;
+import java.util.Set;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 使用者權限物件
+ * @author huant
+ * @date 2022年3月28日
+ * @remark 
+ */
+@Getter
+@Setter
+public class UserMenuOperateVo {
+    
+    private Boolean auth;
+    
+    private Map<String, Set<String>> alertTypeMap;
+    
+    private Set<String> reviewUnitSet;
+    
+}

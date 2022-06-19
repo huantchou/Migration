@@ -1,0 +1,83 @@
+package com.esb.saml.migration.service;
+
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.esb.saml.cmt.enums.AlertReviewActionEnum;
+//import com.esb.saml.cmt.dao.lmt.impl.LmtCommonDaoImpl;
+//import com.esb.saml.cmt.enums.AlertReviewActionEnum;
+//import com.esb.saml.cmt.enums.AlertReviewStatusEnum;
+//import com.esb.saml.cmt.exception.SamlException;
+//import com.esb.saml.cmt.exception.enums.SamlErrorStatus;
+//import com.esb.saml.cmt.model.common.bo.SessionInfoBo;
+//import com.esb.saml.cmt.model.usermanagement.bo.UserBo;
+import com.esb.saml.db.cmt.CusAlertAggregationBo;
+import com.esb.saml.db.cmt.CusAlertBo;
+import com.esb.saml.error.common.SamlException;
+import com.esb.saml.migration.dao.cmt.impl.MgrAlertManagementDaoImpl;
+import com.esb.saml.utils.CusUtils;
+
+/**
+ * Migration相關程式處理
+ * 
+ * @author Huant
+ * @date 2022年6月16日
+ * @remark
+ */
+@Service
+public class MigrationService {
+	/**
+	 * logger
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(MigrationService.class);
+
+	@Autowired
+	private MgrAlertManagementDaoImpl alertManagementDao;
+	
+	@Autowired
+	private MgrAlertManagementDaoImpl MgrAlertManagementDao;
+
+	public List<Integer> samlCloseAlert() throws Exception {
+		try {
+			final List<Long> intList = MgrAlertManagementDao.queryAlertAggregationSeqNo();
+
+			if (CollectionUtils.isNotEmpty(intList)) {
+				for (Long cusAlertAggSeqNo : intList) {
+
+					alertManagementDao.changeCusAlertStatus(cusAlertAggSeqNo, AlertReviewActionEnum.FALSE.getContext(),
+							AlertReviewStatusEnum.CLOSE.getContext(),"", 1, "","");
+					
+					final List<Long> alertSeqNoLt = MgrAlertManagementDao.queryCusAlertSeqNo(cusAlertAggSeqNo);
+					for (Long alertSeqNo : alertSeqNoLt) {
+						// TODO 產生hashkey方法暫時有問題
+						List<CusAlertBo> cusAlertList = alertManagementDao.queryCusAlertByAlertAggSeqNo(alertSeqNo);
+						String businessType = "";
+						Boolean isFistGetAggData = true;
+						for (CusAlertBo cusAlertCase : cusAlertList) {
+							if (!CusUtils.checkPartyKeySysGen(cusAlertCase.getPartyKey())) {
+								if (isFistGetAggData) {
+									CusAlertAggregationBo alertAgg = alertManagementDao
+											.queryCusAlertAggByAlertAggSeqNo(alertSeqNo);
+									businessType = alertAgg.getBusinessType();
+									isFistGetAggData = false;
+								}
+								generateCusHashKey(cusAlertCase, businessType);
+							}
+						}
+					}
+				}
+
+			}
+		} catch (Exception e) {
+			logger.error("" + e.getMessage(), e);
+			throw new SamlException(SamlErrorStatus.UNKNOWN_ERROR);
+		}
+		return null;
+	}
+
+}

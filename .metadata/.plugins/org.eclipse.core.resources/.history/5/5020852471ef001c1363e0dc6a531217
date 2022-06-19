@@ -1,0 +1,5 @@
+package com.esb.saml.migration.exception;
+
+public enum SamlErrorStatus {
+
+}

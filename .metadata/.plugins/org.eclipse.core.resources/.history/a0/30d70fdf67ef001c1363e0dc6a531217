@@ -1,0 +1,52 @@
+package com.esb.saml.migration.dao.cmt;
+
+import java.util.List;
+
+import com.esb.saml.db.cmt.CusAlertAggregationBo;
+import com.esb.saml.db.cmt.CusAlertBo;
+
+public interface MgrAlertManagementDao {
+	 /**
+	 * 取得牌卡均為false hit的cusAlertSeqNo
+	 * @remark
+	 */
+    List<Long> queryAlertAggregationSeqNo();
+    
+    /**
+   	 * 取得牌卡均為false hit的cusAlertSeqNo
+   	 * @remark
+   	 */
+    List<Long> queryCusAlertSeqNo(Long cusAlertAggSeqNo);
+    
+    /**
+     * 更新電文掃描警示案件審查相關資料
+     * @param alertSeqNo 警示流水號
+     * @param status 案件狀態
+     * @param reviewStatus 審查狀態
+     * @param level1User 審查人員
+     * @param reviewLevel 審查層級
+     * @param reviewNotes 審查意見
+     * @param assignUser 指派人員
+     * @remark
+     */
+    void changeMsgAlertStatus(Long alertSeqNo, String status, String reviewStatus, String level1User, Integer reviewLevel, 
+            String reviewNotes, String assignUser);
+    
+    /**
+     * 取得顧客掃描警示案件資料
+     * @param alertSeqNo 警示流水號
+     * @return 顧客掃描警示案件資料
+     * @remark
+     */
+    List<CusAlertBo> queryCusAlertByAlertAggSeqNo(Long alertSeqNo);
+    
+    /**
+     * 
+     * @param alertSeqNo
+     * @return
+     * @remark
+     */
+    CusAlertAggregationBo queryCusAlertAggByAlertAggSeqNo(Long alertSeqNo);
+    
+    
+}

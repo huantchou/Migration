@@ -1,0 +1,44 @@
+package com.esb.saml.migration.enums;
+
+/**
+ * 警示案件狀態生成
+ * @author huant
+ * @date 2022年6月16日
+ * @remark 
+ */
+public enum AlertReviewEnum {
+	    
+	    /**
+	     * TRUE
+	     */
+	    TRUE("TRUE"),
+	    
+	    /**
+	     * FALSE
+	     */
+	    FALSE("FALSE");
+	    
+	    /**
+	     * 列舉文字
+	     */
+	    private String context;
+
+	    /**
+	     * 名單篩選方式列舉文字
+	     * @param context 列舉文字
+	     */
+	    private AlertReviewEnum(String context) {
+	        this.context = context;
+	    }
+
+	    /**
+	     * 取得列舉對應文字
+	     * @return context 列舉文字
+	     */
+	    public String getContext() {
+	        return context;
+	    }
+
+	}
+
+}

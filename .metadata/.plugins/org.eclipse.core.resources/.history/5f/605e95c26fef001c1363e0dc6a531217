@@ -1,0 +1,78 @@
+package com.esb.saml.migration.common.bo;
+import java.util.Map;
+
+import com.esb.saml.migration.common.vo.UserMenuOperateVo;
+
+import lombok.Data;
+
+@Data
+public class SessionInfoBo {
+    
+    /**
+     * 員工編號
+     */
+    private String userId;
+    
+    /**
+     * 員工所屬區域
+     */
+    private String regionUnit;
+    
+    /**
+     * 現行使用區域
+     */
+    private String reviewRegion;
+    
+    /**
+     * 可使用區域
+     */
+    private String[] regionList;
+    
+    /**
+     * 使用者權限清單
+     */
+    private Map<String, Map<String, UserMenuOperateVo>> menuOperateList;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getRegionUnit() {
+		return regionUnit;
+	}
+
+	public void setRegionUnit(String regionUnit) {
+		this.regionUnit = regionUnit;
+	}
+
+	public String getReviewRegion() {
+		return reviewRegion;
+	}
+
+	public void setReviewRegion(String reviewRegion) {
+		this.reviewRegion = reviewRegion;
+	}
+
+	public String[] getRegionList() {
+		return regionList;
+	}
+
+	public void setRegionList(String[] regionList) {
+		this.regionList = regionList;
+	}
+
+	public Map<String, Map<String, UserMenuOperateVo>> getMenuOperateList() {
+		return menuOperateList;
+	}
+
+	public void setMenuOperateList(Map<String, Map<String, UserMenuOperateVo>> menuOperateList) {
+		this.menuOperateList = menuOperateList;
+	}
+    
+    
+    
+}

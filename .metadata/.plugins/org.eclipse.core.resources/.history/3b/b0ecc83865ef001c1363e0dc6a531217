@@ -1,0 +1,42 @@
+package com.esb.saml.migration.model.bo;
+
+import java.util.Date;
+
+import com.esb.saml.common.entity.staticenum.AlertType;
+
+import lombok.Data;
+
+/**
+ * @author alison
+ * @date 2022年5月31日
+ * @remark 
+ */
+@Data
+public class AlertCaseBo {
+    
+    private Long mappingAlertSeqNo;
+    
+    private Long caseSeqNo;
+    
+    private AlertType alertType;
+    
+    private String caseNo;
+    
+    private String businessType;
+    
+    private String reqMsg;
+    
+    private String businessUnit;
+    
+    private String businessSystem;
+    
+    private String regionUnit;
+    
+    private String reviewUnit;
+    
+    private Date recordDate;
+    
+    private Date screeningTime;
+    
+    private Date alertTime;
+}

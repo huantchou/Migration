@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esb.saml.cmt.dao.cmt.UserManagementDao">
+
+    <resultMap id="role" type="com.esb.saml.cmt.model.usermanagement.bo.RoleBo">
+		<id property="roleSeqNo" column="ROLE_SEQ_NO"/>
+        <result property="roleName" column="ROLE_NAME"/>
+        <result property="roleDesc" column="ROLE_DESC"/>
+        <result property="regionUnit" column="REGION_UNIT"/>
+        <result property="createUser" column="CREATE_USER"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updateUser" column="UPDATE_USER"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+    </resultMap>
+
+	<resultMap id="roleMenuAuth" type="com.esb.saml.cmt.model.usermanagement.bo.RoleAuthBo">
+        <result property="roleSeqNo" column="ROLE_SEQ_NO"/>
+        <result property="menuId" column="MENU_ID"/>
+        <result property="operate" column="OPERATE"/>
+		<result property="dataColumn" column="DATA_COLUMN"/>
+		<result property="dataValue" column="DATA_VALUE"/>
+		<result property="dataIndex" column="DATA_INDEX"/>
+    </resultMap>
+
+    <resultMap id="group" type="com.esb.saml.cmt.model.usermanagement.bo.GroupBo">
+		<id property="groupSeqNo" column="GROUP_SEQ_NO"/>
+        <result property="groupName" column="GROUP_NAME"/>
+        <result property="groupDesc" column="GROUP_DESC"/>
+        <result property="regionUnit" column="REGION_UNIT"/>
+        <result property="createUser" column="CREATE_USER"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updateUser" column="UPDATE_USER"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+    </resultMap>
+
+    <resultMap id="user" type="com.esb.saml.cmt.model.usermanagement.bo.UserBo">
+		<result property="userId" column="USER_ID"/>
+		<result property="password" column="PASSWORD"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="companyCode" column="COMPANY_CODE"/>
+        <result property="companyName" column="COMPANY_NAME"/>
+        <result property="deptCode" column="DEPT_CODE"/>
+        <result property="deptName" column="DEPT_NAME"/>
+        <result property="deptFullShortName" column="DEPT_FULL_SHORT_NAME"/>
+        <result property="deptShortName" column="DEPT_SHORT_NAME"/>
+        <result property="sectCode" column="SECT_CODE"/>
+        <result property="sectName" column="SECT_NAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="regionUnit" column="REGION_UNIT"/>
+        <result property="activeTime" column="ACTIVE_TIME"/>
+        <result property="createUser" column="CREATE_USER"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updateUser" column="UPDATE_USER"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+    </resultMap>
+
+	<resultMap id="groupRoleRelBo" type="com.esb.saml.cmt.model.usermanagement.bo.GroupRoleRelBo">
+		<result property="groupSeqNo" column="groupSeqNo"/>
+        <result property="roleSeqNo" column="roleSeqNo"/>
+        <result property="roleName" column="roleName"/>
+    </resultMap>
+
+	<resultMap id="userRel" type="com.esb.saml.cmt.model.usermanagement.bo.UserRelBo">
+		<result property="userId" column="userId"/>
+        <result property="seqNo" column="seqNo"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+	<resultMap id="groupUserCount" type="com.esb.saml.cmt.model.usermanagement.bo.GroupUserCountBo">
+        <result property="groupSeqNo" column="groupSeqNo"/>
+        <result property="userCount" column="userCount"/>
+    </resultMap>
+
+	<resultMap id="userRoleMenu" type="com.esb.saml.cmt.model.common.bo.UserRoleMenuBo">
+		<result property="roleSeqNo" column="ROLE_SEQ_NO"/>
+        <result property="menuId" column="MENU_ID"/>
+        <result property="operate" column="OPERATE"/>
+    </resultMap>
+
+	<insert id="insertRole" parameterType="com.esb.saml.cmt.model.usermanagement.bo.RoleBo"
+            useGeneratedKeys="true" keyProperty="roleSeqNo" keyColumn="ROLE_SEQ_NO">
+        INSERT INTO 
+		CMT.TB_ROLE(
+		    ROLE_NAME,
+		    ROLE_DESC,
+		    REGION_UNIT,
+		    CREATE_USER,
+		    CREATE_TIME,
+		    UPDATE_USER,
+		    UPDATE_TIME
+        )
+		VALUES(
+		    #{roleName},
+		    #{roleDesc},
+		    #{regionUnit},
+		    #{createUser},
+		    #{createTime},
+		    #{updateUser},
+		    #{updateTime}
+		)
+    </insert>
+
+    <select id="selectRoleListByRegion" resultMap="role" parameterType="map">
+        SELECT
+		ROLE_SEQ_NO, ROLE_NAME, ROLE_DESC, REGION_UNIT,
+		CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME
+		FROM CMT.TB_ROLE
+		WHERE REGION_UNIT = #{regionUnit}
+		ORDER BY ROLE_SEQ_NO DESC
+    </select>
+
+	<select id="selectRoleByRoleSeqNo" resultMap="role" parameterType="map">
+        SELECT
+		ROLE_SEQ_NO, ROLE_NAME, ROLE_DESC, REGION_UNIT,
+		CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME
+		FROM CMT.TB_ROLE
+		WHERE ROLE_SEQ_NO = #{roleSeqNo}
+    </select>
+
+    <update id="updateRole" parameterType="com.esb.saml.cmt.model.usermanagement.bo.RoleBo">
+        UPDATE CMT.TB_ROLE SET
+        ROLE_NAME  = #{roleName},
+        ROLE_DESC  = #{roleDesc},
+        REGION_UNIT  = #{regionUnit},
+        UPDATE_USER  = #{updateUser},
+        UPDATE_TIME  = #{updateTime}
+        WHERE ROLE_SEQ_NO = #{roleSeqNo}
+    </update>
+
+	<delete id="deleteRole" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_ROLE
+        WHERE
+        ROLE_SEQ_NO = #{roleSeqNo}
+    </delete>
+
+	<insert id="insertRoleMenuAuth" parameterType="com.esb.saml.cmt.model.usermanagement.bo.RoleMenuAuthBo">
+        INSERT INTO 
+		CMT.TB_ROLE_MENU_AUTH(
+			ROLE_MENU_AUTH_KEY,
+		    ROLE_SEQ_NO,
+		    MENU_ID,
+		    OPERATE
+        )
+		VALUES(
+			#{roleMenuAuthKey},
+		    #{roleSeqNo},
+		    #{menuId},
+		    #{operate}
+		)
+    </insert>
+    
+    <delete id="deleteRoleMenuAuth" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_ROLE_MENU_AUTH
+        WHERE
+        ROLE_SEQ_NO = #{roleSeqNo}
+    </delete>
+
+	<insert id="insertRoleDataAuth" parameterType="com.esb.saml.cmt.model.usermanagement.bo.RoleDataAuthBo"
+            useGeneratedKeys="true" keyProperty="roleDataAuthSeqNo" keyColumn="ROLE_DATA_AUTH_SEQ_NO">
+        INSERT INTO 
+		CMT.TB_ROLE_DATA_AUTH(
+            ROLE_MENU_AUTH_KEY,
+		    ROLE_SEQ_NO,
+		    DATA_COLUMN,
+		    DATA_VALUE,
+			DATA_INDEX
+        )
+		VALUES(
+			#{roleMenuAuthKey},
+		    #{roleSeqNo},
+		    #{dataColumn},
+		    #{dataValue},
+			#{dataIndex}
+		)
+    </insert>
+    
+    <delete id="deleteRoleDataAuth" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_ROLE_DATA_AUTH
+        WHERE
+        ROLE_SEQ_NO = #{roleSeqNo}
+    </delete>
+
+	<select id="selectRoleAuthListByRoleSeqNo" resultMap="roleMenuAuth" parameterType="map">
+        SELECT
+		a.MENU_ID, a.OPERATE, b.DATA_COLUMN, b.DATA_VALUE, b.DATA_INDEX
+		FROM CMT.TB_ROLE_MENU_AUTH a
+		LEFT JOIN CMT.TB_ROLE_DATA_AUTH b on a.ROLE_MENU_AUTH_KEY = b.ROLE_MENU_AUTH_KEY
+		WHERE
+		a.ROLE_SEQ_NO = #{roleSeqNo}
+    </select>
+
+    <insert id="insertGroup" parameterType="com.esb.saml.cmt.model.usermanagement.bo.GroupBo"
+            useGeneratedKeys="true" keyProperty="groupSeqNo" keyColumn="GROUP_SEQ_NO">
+        INSERT INTO 
+		CMT.TB_GROUP(
+		    GROUP_NAME,
+		    GROUP_DESC,
+		    REGION_UNIT,
+		    CREATE_USER,
+		    CREATE_TIME,
+		    UPDATE_USER,
+		    UPDATE_TIME
+        )
+		VALUES(
+		    #{groupName},
+		    #{groupDesc},
+		    #{regionUnit},
+		    #{createUser},
+		    #{createTime},
+		    #{updateUser},
+		    #{updateTime}
+		)
+    </insert>
+
+	<update id="updateGroup" parameterType="com.esb.saml.cmt.model.usermanagement.bo.GroupBo">
+        UPDATE CMT.TB_GROUP
+        SET
+		<if test="groupName != null">
+           GROUP_NAME=#{groupName},
+        </if>
+		<if test="groupDesc != null">
+           GROUP_DESC=#{groupDesc},
+        </if>
+		UPDATE_USER=#{updateUser},
+		UPDATE_TIME=#{updateTime}
+        WHERE
+        GROUP_SEQ_NO=#{groupSeqNo}
+    </update>
+
+    <select id="selectGroupListByRegion" resultMap="group" parameterType="map">
+        SELECT
+		GROUP_SEQ_NO, GROUP_NAME, GROUP_DESC, REGION_UNIT,
+		CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME
+		FROM CMT.TB_GROUP
+		WHERE REGION_UNIT = #{regionUnit}
+		ORDER BY GROUP_SEQ_NO DESC
+    </select>
+
+	<select id="selectGroupByGroupSeqNo" resultMap="group" parameterType="map">
+        SELECT
+		GROUP_SEQ_NO, GROUP_NAME, GROUP_DESC, REGION_UNIT,
+		CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME
+		FROM CMT.TB_GROUP
+		WHERE GROUP_SEQ_NO = #{groupSeqNo}
+    </select>
+
+    <select id="selectGroupRolesByRegionUnit" resultMap="groupRoleRelBo" parameterType="map">
+        SELECT
+		a.GROUP_SEQ_NO as groupSeqNo, a.ROLE_SEQ_NO as roleSeqNo, b.ROLE_NAME as roleName
+		FROM CMT.TB_GROUP_ROLE_REL a
+        LEFT JOIN CMT.TB_ROLE b on a.ROLE_SEQ_NO = b.ROLE_SEQ_NO
+		WHERE
+		a.REGION_UNIT = #{regionUnit}
+    </select>
+
+    <select id="selectGroupRolesByGroupSeqNo" resultMap="role" parameterType="map">
+        SELECT
+		b.ROLE_SEQ_NO, b.ROLE_NAME, b.ROLE_DESC, b.REGION_UNIT,
+		b.CREATE_USER, b.CREATE_TIME, b.UPDATE_USER, b.UPDATE_TIME
+		FROM CMT.TB_GROUP_ROLE_REL a
+        LEFT JOIN CMT.TB_ROLE b on a.ROLE_SEQ_NO = b.ROLE_SEQ_NO
+		WHERE
+		a.GROUP_SEQ_NO = #{groupSeqNo}
+    </select>
+
+	<delete id="deleteGroup" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_GROUP
+        WHERE
+        GROUP_SEQ_NO = #{groupSeqNo}
+    </delete>
+
+    <insert id="insertGroupRoleRel" parameterType="map">
+        INSERT INTO 
+		CMT.TB_GROUP_ROLE_REL(
+		    GROUP_SEQ_NO,
+		    ROLE_SEQ_NO,
+		    REGION_UNIT
+        )
+		VALUES(
+		    #{groupSeqNo},
+		    #{roleSeqNo},
+		    #{regionUnit}
+		)
+    </insert>
+
+    <delete id="deleteGroupAllRoleRel" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_GROUP_ROLE_REL
+        WHERE
+        GROUP_SEQ_NO = #{groupSeqNo}
+    </delete>
+
+	<delete id="deleteRoleAllGroupRel" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_GROUP_ROLE_REL
+        WHERE
+        ROLE_SEQ_NO = #{ROLE_SEQ_NO}
+    </delete>
+
+    <insert id="insertGroupUserRel" parameterType="map">
+        INSERT INTO 
+		CMT.TB_GROUP_USER_REL(
+		    GROUP_SEQ_NO,
+		    USER_ID,
+		    REGION_UNIT
+        )
+		VALUES(
+		    #{groupSeqNo},
+		    #{userId},
+		    #{regionUnit}
+		)
+    </insert>
+
+    <select id="countAssignedRole" resultType="java.lang.Integer" parameterType="map">
+       SELECT ( SELECT COUNT(1) 
+            FROM (
+                SELECT ROLE_SEQ_NO
+                FROM CMT.TB_USER_ROLE_REL
+                WHERE ROLE_SEQ_NO =  CMT.TB_ROLE.ROLE_SEQ_NO
+            ) GROUP BY ROLE_SEQ_NO) AS ASSIGNCOUNT
+       FROM CMT.TB_ROLE
+       WHERE ROLE_SEQ_NO = #{roleSeqNo}
+    </select>
+
+	<select id="countAssignedGroup" resultType="java.lang.Integer" parameterType="map">
+       SELECT ( SELECT COUNT(1) 
+            FROM (
+                SELECT GROUP_SEQ_NO
+                FROM CMT.TB_GROUP_USER_REL
+                WHERE GROUP_SEQ_NO = CMT.TB_GROUP.GROUP_SEQ_NO
+            ) GROUP BY GROUP_SEQ_NO) AS ASSIGNCOUNT
+       FROM CMT.TB_GROUP
+       WHERE GROUP_SEQ_NO = #{groupSeqNo}
+    </select>
+
+    <select id="countGroupUsers" resultMap="groupUserCount">
+        SELECT
+		GROUP_SEQ_NO AS groupSeqNo, count(1) AS userCount
+		FROM CMT.TB_GROUP_USER_REL a
+        LEFT JOIN CMT.TB_USER b ON a.USER_ID = b.USER_ID
+		WHERE
+		a.REGION_UNIT = #{regionUnit}
+		GROUP BY a.GROUP_SEQ_NO
+    </select>
+
+    <select id="selectGroupUsers" resultMap="user" parameterType="map">
+        SELECT
+		b.USER_ID, b.USER_NAME, b.COMPANY_CODE, b.COMPANY_NAME, b.DEPT_CODE, b.DEPT_NAME,
+		b.DEPT_FULL_SHORT_NAME, b.DEPT_SHORT_NAME, b.SECT_CODE, b.SECT_NAME, b.STATUS,
+        b.REGION_UNIT, b.ACTIVE_TIME, b.CREATE_USER, b.CREATE_TIME, b.UPDATE_USER, b.UPDATE_TIME
+		FROM CMT.TB_GROUP_USER_REL a
+        LEFT JOIN CMT.TB_USER b on a.USER_ID = b.USER_ID
+		WHERE
+		a.GROUP_SEQ_NO = #{groupSeqNo}
+    </select>
+
+    <select id="selectUsersNotInGroup" resultMap="user" parameterType="map">
+        SELECT
+		USER_ID, USER_NAME, COMPANY_CODE, COMPANY_NAME, DEPT_CODE, DEPT_NAME,
+		DEPT_FULL_SHORT_NAME, DEPT_SHORT_NAME, SECT_CODE, SECT_NAME, STATUS,
+        REGION_UNIT, ACTIVE_TIME, CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME
+		FROM CMT.TB_USER
+        WHERE STATUS = 'Active' AND REGION_UNIT = #{regionUnit}
+        MINUS
+        SELECT
+        u.USER_ID, u.USER_NAME, u.COMPANY_CODE, u.COMPANY_NAME, u.DEPT_CODE, u.DEPT_NAME,
+		u.DEPT_FULL_SHORT_NAME, u.DEPT_SHORT_NAME, u.SECT_CODE, u.SECT_NAME, u.STATUS,
+        u.REGION_UNIT, u.ACTIVE_TIME, u.CREATE_USER, u.CREATE_TIME, u.UPDATE_USER, u.UPDATE_TIME
+        FROM CMT.TB_GROUP_USER_REL gu
+        INNER JOIN CMT.TB_USER u ON gu.USER_ID = u.USER_ID
+        WHERE gu.GROUP_SEQ_NO = #{groupSeqNo}
+        ORDER BY UPDATE_TIME DESC
+    </select>
+
+	<delete id="deleteGroupUserRel" parameterType="map">
+        DELETE FROM
+        CMT.TB_GROUP_USER_REL
+        WHERE
+        GROUP_SEQ_NO = #{groupSeqNo} AND USER_ID IN
+		<foreach collection="userIdList" item="value" separator="," open="("
+                 close=")">
+            #{value}
+        </foreach>
+    </delete>
+
+	<delete id="deleteGroupAllUserRel" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_GROUP_USER_REL
+        WHERE
+        GROUP_SEQ_NO = #{groupSeqNo}
+    </delete>
+
+	<delete id="deleteUserAllGroupRel" parameterType="map">
+        DELETE FROM
+        CMT.TB_GROUP_USER_REL
+        WHERE
+        REGION_UNIT = #{regionUnit} AND USER_ID IN
+		<foreach collection="userIdList" item="value" separator="," open="("
+                 close=")">
+            #{value}
+        </foreach>
+    </delete>
+
+    <insert id="insertUserRoleRel" parameterType="map">
+        INSERT INTO 
+		CMT.TB_USER_ROLE_REL(
+		    USER_ID,
+		    ROLE_SEQ_NO,
+		    REGION_UNIT
+        )
+		VALUES(
+		    #{userId},
+		    #{roleSeqNo},
+		    #{regionUnit}
+		)
+    </insert>
+
+    <select id="selectGroupUserRolesByGroupSeqNo" resultMap="userRel" parameterType="map">
+        SELECT
+		a.USER_ID as userId, b.ROLE_SEQ_NO as seqNo, c.ROLE_NAME as name
+		FROM CMT.TB_GROUP_USER_REL a
+        INNER JOIN CMT.TB_USER_ROLE_REL b on b.USER_ID = a.USER_ID AND b.REGION_UNIT = #{regionUnit}
+        LEFT JOIN CMT.TB_ROLE c on c.ROLE_SEQ_NO = b.ROLE_SEQ_NO
+		WHERE
+		a.GROUP_SEQ_NO = #{groupSeqNo}
+    </select>
+
+	<select id="selectUserRolesByUserId" resultMap="userRel" parameterType="map">
+        SELECT
+		a.USER_ID as userId, b.ROLE_SEQ_NO as seqNo, b.ROLE_NAME as name
+		FROM CMT.TB_USER_ROLE_REL a
+        LEFT JOIN CMT.TB_ROLE b on b.ROLE_SEQ_NO = a.ROLE_SEQ_NO
+		WHERE
+		b.REGION_UNIT = #{regionUnit}
+		<if test="userIdList != null">
+           AND USER_ID IN
+			<foreach collection="userIdList" item="value" separator="," open="("
+	                 close=")">
+	            #{value}
+	        </foreach>
+        </if>
+    </select>
+
+	<select id="selectUserGroupsByUserId" resultMap="userRel" parameterType="map">
+        SELECT
+		a.USER_ID as userId, b.GROUP_SEQ_NO as seqNo, b.GROUP_NAME as name
+		FROM CMT.TB_GROUP_USER_REL a
+        LEFT JOIN CMT.TB_GROUP b on b.GROUP_SEQ_NO = a.GROUP_SEQ_NO
+		WHERE
+		b.REGION_UNIT = #{regionUnit}
+		<if test="userIdList != null">
+           AND USER_ID IN
+			<foreach collection="userIdList" item="value" separator="," open="("
+	                 close=")">
+	            #{value}
+	        </foreach>
+        </if>
+    </select>
+
+    <select id="selectUserGroups" resultMap="userRel" parameterType="map">
+        SELECT
+		gu.USER_ID as userId, gu.GROUP_SEQ_NO as seqNo, g.GROUP_NAME as name
+		FROM CMT.TB_GROUP_USER_REL gu
+        LEFT JOIN CMT.TB_GROUP g on g.GROUP_SEQ_NO = gu.GROUP_SEQ_NO
+    </select>
+
+    <delete id="deleteRoleAllUserRel" parameterType="java.lang.Long">
+        DELETE FROM
+        CMT.TB_USER_ROLE_REL
+        WHERE
+        ROLE_SEQ_NO = #{roleSeqNo}
+    </delete>
+
+	<delete id="deleteUserAllRoleRel" parameterType="map">
+        DELETE FROM
+        CMT.TB_USER_ROLE_REL
+        WHERE
+        REGION_UNIT = #{regionUnit} AND USER_ID IN
+		<foreach collection="userIdList" item="value" separator="," open="("
+                 close=")">
+            #{value}
+        </foreach>
+    </delete>
+
+	<select id="selectUsers" resultMap="user" parameterType="map">
+        SELECT
+		USER_ID, USER_NAME, COMPANY_CODE, COMPANY_NAME, DEPT_CODE, DEPT_NAME,
+		DEPT_FULL_SHORT_NAME, DEPT_SHORT_NAME, SECT_CODE, SECT_NAME, STATUS,
+        REGION_UNIT, ACTIVE_TIME, CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME
+		FROM CMT.TB_USER
+        WHERE STATUS = #{status} AND REGION_UNIT = #{regionUnit}
+		ORDER BY UPDATE_TIME DESC
+    </select>
+
+	<select id="selectUserByUserId" resultMap="user" parameterType="map">
+        SELECT
+		USER_ID, PASSWORD, USER_NAME, COMPANY_CODE, COMPANY_NAME, DEPT_CODE, DEPT_NAME,
+		DEPT_FULL_SHORT_NAME, DEPT_SHORT_NAME, SECT_CODE, SECT_NAME, STATUS,
+        REGION_UNIT, ACTIVE_TIME, CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME
+		FROM CMT.TB_USER
+        WHERE USER_ID = #{userId}
+    </select>
+
+	<update id="updateUser" parameterType="map">
+        UPDATE CMT.TB_USER SET
+		ACTIVE_TIME = #{updateTime},
+        UPDATE_USER = #{updateUser},
+        UPDATE_TIME = #{updateTime}
+        WHERE
+		USER_ID IN
+		<foreach collection="userIdList" item="value" separator="," open="("
+                 close=")">
+            #{value}
+        </foreach>
+    </update>
+	
+	<update id="activeUsers" parameterType="map">
+        UPDATE CMT.TB_USER SET
+        STATUS = 'Active',
+		ACTIVE_TIME = #{updateTime},
+        UPDATE_USER = #{updateUser},
+        UPDATE_TIME = #{updateTime}
+        WHERE
+		REGION_UNIT = #{regionUnit} AND USER_ID IN
+		<foreach collection="userIdList" item="value" separator="," open="("
+                 close=")">
+            #{value}
+        </foreach>
+    </update>
+
+	<update id="inactiveUsers" parameterType="map">
+        UPDATE CMT.TB_USER SET
+        STATUS = 'Inactive',
+        UPDATE_USER = #{updateUser},
+        UPDATE_TIME = #{updateTime}
+        WHERE
+		REGION_UNIT = #{regionUnit} AND USER_ID IN
+		<foreach collection="userIdList" item="value" separator="," open="("
+                 close=")">
+            #{value}
+        </foreach>
+    </update>
+
+	<select id="selectUserAllRoleMenuByUserId" resultMap="userRoleMenu" parameterType="map">
+        SELECT
+		d.OPERATE , d.MENU_ID 
+		FROM CMT.TB_GROUP_USER_REL a
+        INNER JOIN CMT.TB_GROUP_ROLE_REL b on b.GROUP_SEQ_NO = a.GROUP_SEQ_NO
+        LEFT JOIN CMT.TB_ROLE c on c.ROLE_SEQ_NO = b.ROLE_SEQ_NO
+        LEFT JOIN CMT.TB_ROLE_MENU_AUTH d ON d.ROLE_SEQ_NO  = b.ROLE_SEQ_NO
+        WHERE a.USER_ID = #{userId} AND a.REGION_UNIT = #{regionUnit}
+        UNION  
+        SELECT
+		c.OPERATE , c.MENU_ID 
+		FROM CMT.TB_USER_ROLE_REL a
+        LEFT JOIN CMT.TB_ROLE b on a.ROLE_SEQ_NO = b.ROLE_SEQ_NO
+        LEFT JOIN CMT.TB_ROLE_MENU_AUTH c ON a.ROLE_SEQ_NO = c.ROLE_SEQ_NO
+        WHERE a.USER_ID = #{userId} AND a.REGION_UNIT = #{regionUnit}
+    </select>
+
+	<select id="selectRoleMenuByRoleSeqNoAndMenuId" resultMap="userRoleMenu" parameterType="map">
+        SELECT
+		b.OPERATE , b.MENU_ID 
+		FROM CMT.TB_ROLE a
+        LEFT JOIN CMT.TB_ROLE_MENU_AUTH b ON a.ROLE_SEQ_NO  = b.ROLE_SEQ_NO
+        WHERE
+        b.MENU_ID = #{menuId} AND
+		a.REGION_UNIT = #{regionUnit} AND a.ROLE_SEQ_NO IN
+		<foreach collection="roleSeqNoList" item="value" separator="," open="("
+                 close=")">
+            #{value}
+        </foreach>
+    </select>
+    
+    <select id="queryDataAuthByMenuIdAndOperate" parameterType="map" resultMap="roleMenuAuth">
+		SELECT 
+			rda.ROLE_SEQ_NO,
+			rda.DATA_COLUMN, 
+			rda.DATA_VALUE,
+			rda.DATA_INDEX
+		FROM 
+			CMT.TB_ROLE r
+		INNER JOIN
+			CMT.TB_ROLE_MENU_AUTH rma ON r.ROLE_SEQ_NO = rma.ROLE_SEQ_NO
+		INNER JOIN
+			CMT.TB_ROLE_DATA_AUTH rda ON rma.ROLE_MENU_AUTH_KEY = rda.ROLE_MENU_AUTH_KEY
+		WHERE 
+			r.REGION_UNIT = #{regionUnit}
+			AND rma.MENU_ID = #{menuId}
+			AND rma.OPERATE = #{operate}
+	</select>
+    
+    <select id="queryAlertReviewUser" parameterType="java.util.List" resultMap="user">
+    	SELECT 
+			u.USER_ID, 
+			u.USER_NAME
+		FROM 
+			CMT.TB_GROUP_ROLE_REL grr
+		INNER JOIN 
+			CMT.TB_GROUP_USER_REL gur ON grr.GROUP_SEQ_NO = gur.GROUP_SEQ_NO
+		INNER JOIN 
+			CMT.TB_USER u ON u.USER_ID = gur.USER_ID
+		WHERE 
+			grr.ROLE_SEQ_NO IN
+			<foreach collection="list" item="roleSeqNo" separator="," open="(" close=")">
+				#{roleSeqNo}
+			</foreach>
+		UNION ALL
+		SELECT 
+			u.USER_ID, 
+			u.USER_NAME
+		FROM 
+			CMT.TB_USER_ROLE_REL urr
+		INNER JOIN 
+			CMT.TB_USER u ON u.USER_ID = urr.USER_ID
+		WHERE 
+			urr.ROLE_SEQ_NO IN
+			<foreach collection="list" item="roleSeqNo" separator="," open="(" close=")">
+				#{roleSeqNo}
+			</foreach>
+		GROUP BY u.USER_ID, u.USER_NAME
+		ORDER BY USER_ID ASC
+	</select>
+	
+	<select id="queryDataAuthByUserId" parameterType="map" resultMap="roleMenuAuth">
+    	SELECT 
+    		rma.ROLE_SEQ_NO,
+    		rma.MENU_ID,
+			rma.OPERATE,
+			rda.DATA_COLUMN, 
+			rda.DATA_VALUE,
+			rda.DATA_INDEX
+		FROM 
+			CMT.TB_GROUP_USER_REL gur
+		INNER JOIN 
+			CMT.TB_GROUP_ROLE_REL grr ON gur.GROUP_SEQ_NO = grr.GROUP_SEQ_NO
+		INNER JOIN
+			CMT.TB_ROLE_MENU_AUTH rma ON grr.ROLE_SEQ_NO = rma.ROLE_SEQ_NO
+		INNER JOIN
+			CMT.TB_ROLE_DATA_AUTH rda ON rma.ROLE_MENU_AUTH_KEY = rda.ROLE_MENU_AUTH_KEY
+		WHERE 
+			gur.USER_ID = #{userId} 
+			AND gur.REGION_UNIT = #{regionUnit}
+		UNION ALL
+		SELECT 
+			rma.ROLE_SEQ_NO,
+			rma.MENU_ID,
+			rma.OPERATE,
+			rda.DATA_COLUMN, 
+			rda.DATA_VALUE,
+			rda.DATA_INDEX
+		FROM 
+			CMT.TB_USER_ROLE_REL urr
+		INNER JOIN
+			CMT.TB_ROLE_MENU_AUTH rma ON urr.ROLE_SEQ_NO = rma.ROLE_SEQ_NO
+		INNER JOIN
+			CMT.TB_ROLE_DATA_AUTH rda ON rma.ROLE_MENU_AUTH_KEY = rda.ROLE_MENU_AUTH_KEY
+		WHERE 
+			urr.USER_ID = #{userId}
+			AND urr.REGION_UNIT = #{regionUnit}
+		GROUP BY rma.ROLE_SEQ_NO, rma.MENU_ID, rma.OPERATE, rda.DATA_COLUMN, rda.DATA_VALUE, rda.DATA_INDEX
+	</select>
+	
+</mapper>

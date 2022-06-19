@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esb.saml.cmt.dao.cmt.AlertSettingDao">
+
+	<resultMap id="AlertReviewLevelBo"
+		type="com.esb.saml.cmt.model.alertsetting.bo.AlertReviewLevelBo">
+		<result column="ALERT_REVIEW_LEVEL_SEQ_NO" property="seqNo" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="REVIEW_LEVEL" property="reviewLevel" />
+		<result column="ALERT_SCORE" property="alertScore" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATE_USER" property="updateUser" />
+	</resultMap>
+
+	<resultMap id="CannedTextBo"
+		type="com.esb.saml.cmt.model.alertsetting.bo.CannedTextBo">
+		<result column="CAN_KEY" property="canKey" />
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="PRIORITY" property="priority" />
+		<result column="CANNED_TEXT" property="cannedText" />
+		<result column="HIT_RESULT" property="hitResult" />
+		<result column="ACTIVE_STATUS" property="activeStatus" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATE_USER" property="updateUser" />
+	</resultMap>
+	<resultMap id="CannedAlertTypeBo"
+		type="com.esb.saml.cmt.model.alertsetting.bo.CannedAlertTypeBo">
+		<result column="ALERT_TYPE" property="alertType" />
+		<result column="COUNT" property="count" />
+	</resultMap>
+
+	<select id="queryAlertReviewLevel"
+		parameterType="map" resultMap="AlertReviewLevelBo">
+
+		SELECT
+			A.ALERT_REVIEW_LEVEL_SEQ_NO,
+			A.ALERT_TYPE,
+			A.REVIEW_LEVEL,
+			A.ALERT_SCORE,
+			A.UPDATE_TIME,
+			A.UPDATE_USER
+		FROM
+			CMT.TB_ALERT_REVIEW_LEVEL A
+		<if test="alertType != null">
+        WHERE
+			A.ALERT_TYPE=#{alertType}
+        </if>
+        ORDER BY A.ALERT_TYPE, A.REVIEW_LEVEL
+	</select>
+
+	<insert id = "insertAlertReviewLevel">
+		INSERT INTO CMT.TB_ALERT_REVIEW_LEVEL
+			(
+				ALERT_TYPE,
+				REVIEW_LEVEL,
+				ALERT_SCORE,
+				UPDATE_TIME,
+				UPDATE_USER
+			)
+		select A.*
+		FROM(
+		    <foreach collection="list" item="bo" separator="union all" >
+                select
+                    #{bo.alertType} alertType,
+                    #{bo.reviewLevel} reviewLevel,
+                    #{bo.alertScore} alertScore,
+                    sysdate ,
+                    #{bo.updateUser} updateUser
+                from dual
+            </foreach>
+		)A
+	</insert>
+
+	<delete id = "deleteAlertReviewLevel">
+		DELETE FROM CMT.TB_ALERT_REVIEW_LEVEL
+		WHERE ALERT_TYPE = #{alertType}
+	</delete>
+
+	<select id = "queryAlertCannedText"
+		 resultMap = "CannedTextBo">
+		SELECT
+			ALERT_TYPE,
+			PRIORITY,
+			CANNED_TEXT,
+			UPDATE_TIME,
+			UPDATE_USER
+		FROM
+			CMT.TB_ALERT_CANNED_TEXT
+			ORDER BY ALERT_CANNED_TEXT_SEQ_NO ASC
+	</select>
+
+	<select id = "queryHitCannedText"
+		 resultMap = "CannedTextBo">
+		SELECT
+			CAN_KEY,
+			ALERT_TYPE,
+			PRIORITY,
+			CANNED_TEXT,
+			HIT_RESULT,
+			ACTIVE_STATUS,
+			UPDATE_TIME,
+			UPDATE_USER
+		FROM
+			CMT.TB_HIT_CANNED_TEXT
+			WHERE ACTIVE_STATUS = 'Y'
+			ORDER BY HIT_CANNED_TEXT_SEQ_NO ASC
+	</select>
+
+	<select id = "getAlertCannedTextMaxSeqNo"
+		 resultType="java.lang.Integer">
+		SELECT MAX(ALERT_CANNED_TEXT_SEQ_NO)
+		FROM CMT.TB_ALERT_CANNED_TEXT
+	</select>
+
+	<select id = "getHitCannedTextMaxSeqNo"
+		 resultType = "java.lang.Integer">
+		SELECT MAX(HIT_CANNED_TEXT_SEQ_NO)
+		FROM CMT.TB_HIT_CANNED_TEXT
+	</select>
+
+	<select id = "countHitCannedText"
+		 resultMap = "CannedAlertTypeBo">
+		SELECT ALERT_TYPE, COUNT(1) AS COUNT
+		FROM CMT.TB_HIT_CANNED_TEXT
+		GROUP BY ALERT_TYPE
+	</select>
+
+	<insert id = "insertAlertCannedText">
+		INSERT INTO CMT.TB_ALERT_CANNED_TEXT
+		(ALERT_TYPE, PRIORITY, CANNED_TEXT, UPDATE_TIME, UPDATE_USER)
+		VALUES(
+		#{alertType}, #{priority}, #{cannedText}, #{updateTime}, #{updateUser}
+		)
+	</insert>
+
+	<delete id = "deleteAlertCannedText">
+		DELETE FROM CMT.TB_ALERT_CANNED_TEXT
+	</delete>
+
+	<insert id = "insertHitCannedText">
+		INSERT INTO CMT.TB_HIT_CANNED_TEXT
+		(CAN_KEY, ALERT_TYPE, PRIORITY, CANNED_TEXT, HIT_RESULT, ACTIVE_STATUS, UPDATE_TIME, UPDATE_USER)
+		VALUES(
+		#{canKey}, #{alertType}, #{priority}, #{cannedText}, #{hitResult}, #{activeStatus}, #{updateTime}, #{updateUser}
+		)
+	</insert>
+
+	<delete id = "deleteHitCannedText">
+		DELETE FROM CMT.TB_HIT_CANNED_TEXT
+		WHERE ACTIVE_STATUS = 'Y'
+	</delete>
+	
+	<select id="queryAlertCannedTextByAlertType" parameterType="map" resultMap="CannedTextBo">
+		SELECT
+			ALERT_TYPE,
+			PRIORITY,
+			CANNED_TEXT,
+			UPDATE_TIME,
+			UPDATE_USER
+		FROM
+			CMT.TB_ALERT_CANNED_TEXT
+		WHERE
+			ALERT_TYPE = #{alertType}
+			AND REGION_UNIT = #{regionUnit}
+		ORDER BY 
+			ALERT_CANNED_TEXT_SEQ_NO ASC
+	</select>
+
+	<select id="queryHitCannedTextByAlertType" parameterType="map" resultMap="CannedTextBo">
+		SELECT
+			CAN_KEY,
+			ALERT_TYPE,
+			PRIORITY,
+			CANNED_TEXT,
+			HIT_RESULT,
+			ACTIVE_STATUS,
+			UPDATE_TIME,
+			UPDATE_USER
+		FROM
+			CMT.TB_HIT_CANNED_TEXT
+		WHERE 
+			ALERT_TYPE = #{alertType}
+			AND REGION_UNIT = #{regionUnit}
+			AND ACTIVE_STATUS = 'Y'
+		ORDER BY 
+			HIT_CANNED_TEXT_SEQ_NO ASC
+	</select>
+
+</mapper>

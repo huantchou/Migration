@@ -1,0 +1,22 @@
+package com.esb.saml.migration.util;
+
+import com.esb.saml.migration.common.bo.SessionInfoBo;
+
+public class SessionInfoThreadLocal {
+	/**
+	 * init ThreadLocal物件
+	 */
+	private static ThreadLocal<SessionInfoBo> threadLocal = new ThreadLocal<>();
+
+	/**
+	 * 將 SessionInfo 存至 threadLocal
+	 * 
+	 * @param sessionInfo 存放至session的資訊
+	 * @remark
+	 */
+	public static void set(SessionInfoBo sessionInfo) {
+
+		threadLocal.set(sessionInfo);
+	}
+
+}
