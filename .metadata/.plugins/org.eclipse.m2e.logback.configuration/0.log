@@ -1234,3 +1234,4 @@
 2022-06-19 10:44:14,841 [Worker-72: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\mgr_workspace2\Migration\src\test\resources
 2022-06-19 10:44:19,388 [Worker-71: Launching MigrationApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/SamlCommon: com.esb.saml.common:SamlCommon:1.0.0-SNAPSHOT with classifier null to /SamlCommon/target/classes
 2022-06-19 10:44:19,445 [Worker-71: Launching MigrationApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/SamlCommon: com.esb.saml.common:SamlCommon:1.0.0-SNAPSHOT with classifier null to /SamlCommon/target/classes
+2022-06-19 10:44:19,527 [Worker-71: Launching MigrationApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/SamlCommon: com.esb.saml.common:SamlCommon:1.0.0-SNAPSHOT with classifier null to /SamlCommon/target/classes
